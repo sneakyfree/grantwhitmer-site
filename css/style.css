@@ -327,12 +327,17 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .wwfeature h3 .glow { color: var(--blue-lt); }
 .wwfeature p { color: var(--text-soft); margin: 0 0 16px; }
 .wwfeature .ww-cta { margin-top: 8px; }
+.ww-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0 8px; }
+.ww-stats > div { text-align: left; }
+.ww-stats b { display: block; font-family: var(--serif); font-size: clamp(24px, 3vw, 30px); color: var(--blue-lt); line-height: 1; }
+.ww-stats span { font-size: 11.5px; color: var(--muted); letter-spacing: .01em; }
 .ww-strobe { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
 .ww-dot { width: 10px; height: 10px; border-radius: 50%; background: #37d67a; box-shadow: 0 0 0 0 rgba(55,214,122,0.6); animation: strobe 1.8s var(--ease) infinite; }
 @keyframes strobe { 0%,100% { box-shadow: 0 0 0 0 rgba(55,214,122,0.55);} 50% { box-shadow: 0 0 0 9px rgba(55,214,122,0);} }
 @media (prefers-reduced-motion: reduce){ .ww-dot { animation: none; } }
 
 @media (max-width: 900px) {
+  .ww-stats { grid-template-columns: repeat(2, 1fr); }
   .monarch-row { grid-template-columns: 1fr; }
   .monarch:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -13px; transform: translateX(50%); }
   .voice-triad { grid-template-columns: 1fr; }
