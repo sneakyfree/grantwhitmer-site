@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://grantwhitmer.com/sitemap.xml
