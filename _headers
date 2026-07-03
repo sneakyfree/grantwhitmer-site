@@ -1,7 +1,11 @@
-# Always revalidate HTML/CSS/JS so deploys show up immediately (no stale cache).
+# Always revalidate document + code so deploys show up immediately (no stale cache).
 /*
   Cache-Control: public, max-age=0, must-revalidate
+/css/*
+  Cache-Control: public, max-age=0, must-revalidate
+/js/*
+  Cache-Control: public, max-age=0, must-revalidate
 
-# Fingerprinted/static media can cache long.
+# Static media (images, covers, fonts) can cache long — filenames are stable.
 /assets/*
   Cache-Control: public, max-age=2592000
