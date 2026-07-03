@@ -293,6 +293,52 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .footer-bottom { margin-top: 42px; padding-top: 24px; border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--faint); font-size: 13px; }
 .footer-bottom .quiet { font-style: italic; font-family: var(--serif); }
 
+/* ---------- craft: conducting intelligence ---------- */
+.craft-lead { max-width: 74ch; margin-top: 34px; }
+.craft-lead p { font-size: clamp(17px, 1.65vw, 20px); color: var(--text-soft); margin: 0 0 20px; }
+.craft-lead p .hl { color: var(--brass-lt); font-family: var(--serif); font-style: italic; }
+.craft-lead p.opener { font-family: var(--serif); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.32; color: var(--text); }
+
+.monarch-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 40px; align-items: stretch; }
+.monarch { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+.monarch .m-era { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+.monarch h4 { font-family: var(--serif); font-size: 22px; margin: 8px 0 8px; color: var(--text); }
+.monarch.now h4 { color: var(--brass-lt); }
+.monarch p { font-size: 14.5px; color: var(--muted); margin: 0; }
+.monarch:not(:last-child)::after { content: "→"; position: absolute; right: -13px; top: 50%; transform: translateY(-50%); color: var(--brass); font-size: 18px; z-index: 2; }
+
+.callout { margin-top: 44px; background: linear-gradient(120deg, rgba(201,162,75,0.08), rgba(90,169,230,0.05)); border: 1px solid var(--line); border-left: 3px solid var(--brass); border-radius: 14px; padding: 30px 32px; }
+.callout h3 { font-family: var(--serif); font-size: clamp(22px, 2.6vw, 30px); color: var(--text); margin-bottom: 14px; }
+.callout p { color: var(--text-soft); margin: 0 0 14px; max-width: 70ch; }
+.callout p:last-child { margin-bottom: 0; }
+.callout .why { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.callout .why span { font-family: var(--mono); font-size: 12px; color: var(--brass-lt); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; }
+
+/* ---------- voice / windy word ---------- */
+.voice-triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+.vt { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 26px; }
+.vt .vt-k { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass); }
+.vt h4 { font-family: var(--serif); font-size: 21px; margin: 8px 0 10px; }
+.vt p { font-size: 14.5px; color: var(--muted); margin: 0; }
+
+.wwfeature { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 48px); align-items: center; background: linear-gradient(135deg, rgba(90,169,230,0.08), rgba(201,162,75,0.06)); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(28px, 4vw, 44px); }
+.wwfeature .ww-badge { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--blue-lt); }
+.wwfeature h3 { font-size: clamp(26px, 3.4vw, 38px); margin: 12px 0 16px; }
+.wwfeature h3 .glow { color: var(--blue-lt); }
+.wwfeature p { color: var(--text-soft); margin: 0 0 16px; }
+.wwfeature .ww-cta { margin-top: 8px; }
+.ww-strobe { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+.ww-dot { width: 10px; height: 10px; border-radius: 50%; background: #37d67a; box-shadow: 0 0 0 0 rgba(55,214,122,0.6); animation: strobe 1.8s var(--ease) infinite; }
+@keyframes strobe { 0%,100% { box-shadow: 0 0 0 0 rgba(55,214,122,0.55);} 50% { box-shadow: 0 0 0 9px rgba(55,214,122,0);} }
+@media (prefers-reduced-motion: reduce){ .ww-dot { animation: none; } }
+
+@media (max-width: 900px) {
+  .monarch-row { grid-template-columns: 1fr; }
+  .monarch:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -13px; transform: translateX(50%); }
+  .voice-triad { grid-template-columns: 1fr; }
+  .wwfeature { grid-template-columns: 1fr; }
+}
+
 /* ---------- reveal ---------- */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
