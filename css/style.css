@@ -293,6 +293,22 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .footer-bottom { margin-top: 42px; padding-top: 24px; border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--faint); font-size: 13px; }
 .footer-bottom .quiet { font-style: italic; font-family: var(--serif); }
 
+/* ---------- statement band (urgency) ---------- */
+.statement { border-block: 1px solid var(--line-soft); background: radial-gradient(900px 420px at 50% 0%, rgba(201,162,75,0.10), transparent 70%), var(--ink-2); }
+.statement .wrap { text-align: center; max-width: 980px; }
+.statement blockquote { font-family: var(--serif); font-weight: 500; font-size: clamp(24px, 3.7vw, 44px); line-height: 1.26; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+.statement blockquote .accent { color: var(--brass-lt); }
+.statement cite { display: block; margin-top: 26px; font-style: normal; font-family: var(--mono); font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- testimonials ---------- */
+.quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+.quote-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 28px 24px; display: flex; flex-direction: column; }
+.quote-card .qmark { font-family: var(--serif); font-size: 52px; line-height: .6; color: var(--brass); opacity: .5; margin-bottom: 10px; }
+.quote-card p { color: var(--text-soft); font-size: 15px; line-height: 1.58; margin: 0 0 20px; flex: 1; }
+.quote-card .who { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--brass); border-top: 1px solid var(--line-soft); padding-top: 14px; }
+.quotes-note { text-align: center; margin-top: 22px; font-size: 12.5px; color: var(--faint); font-style: italic; }
+@media (max-width: 900px) { .quotes { grid-template-columns: 1fr; } }
+
 /* ---------- what/who/how clarity band ---------- */
 .wwh { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
 .wwh .wwh-item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 26px; }
