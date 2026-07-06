@@ -168,6 +168,22 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .portrait-badge .pb-num { font-family: var(--serif); font-size: 26px; color: var(--brass-lt); line-height: 1; }
 .portrait-badge .pb-lbl { font-size: 11px; color: var(--muted); font-family: var(--mono); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; }
 
+/* hero author-authority badge */
+.author-badge {
+  position: absolute; bottom: -26px; left: -22px; z-index: 3;
+  display: flex; align-items: center; gap: 14px; max-width: 322px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 12px 18px 12px 12px; box-shadow: 0 24px 50px -22px rgba(0,0,0,.78);
+  transition: transform .25s var(--ease), border-color .25s;
+}
+.author-badge:hover { transform: translateY(-3px); border-color: var(--brass-deep); }
+.author-badge .ab-cover { width: 54px; height: auto; flex: 0 0 auto; border-radius: 5px; border: 1px solid var(--line); box-shadow: 0 6px 16px -6px rgba(0,0,0,.6); }
+.author-badge .ab-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.author-badge .ab-k { font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--brass); line-height: 1.3; }
+.author-badge .ab-t { font-family: var(--serif); font-size: 17px; color: var(--text); line-height: 1.1; }
+.author-badge .ab-q { font-size: 11.5px; color: var(--muted); font-style: italic; line-height: 1.3; margin-top: 3px; }
+@media (max-width: 900px) { .author-badge { position: static; margin: 24px auto 0; max-width: 360px; } }
+
 /* ---------- credibility strip ---------- */
 .cred { border-block: 1px solid var(--line-soft); background: rgba(255,255,255,0.012); }
 .cred-inner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-block: 30px; }
