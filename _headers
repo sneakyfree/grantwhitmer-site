@@ -9,3 +9,9 @@
 # Static media (images, covers, fonts) can cache long — filenames are stable.
 /assets/*
   Cache-Control: public, max-age=2592000
+
+# Utility pages stay out of search results.
+/thanks.html
+  X-Robots-Tag: noindex
+/404.html
+  X-Robots-Tag: noindex

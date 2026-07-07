@@ -323,6 +323,7 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .quote-card p { color: var(--text-soft); font-size: 15px; line-height: 1.58; margin: 0 0 20px; flex: 1; }
 .quote-card .who { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--brass); border-top: 1px solid var(--line-soft); padding-top: 14px; }
 .quotes-note { text-align: center; margin-top: 22px; font-size: 12.5px; color: var(--faint); font-style: italic; }
+.quotes-disclosure { margin-top: 14px; font-size: 14px; color: var(--muted); font-style: italic; max-width: 68ch; border-left: 2px solid var(--line); padding-left: 14px; }
 @media (max-width: 900px) { .quotes { grid-template-columns: 1fr; } }
 
 /* ---------- social icons ---------- */
@@ -399,6 +400,7 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .craft-lead p.opener { font-family: var(--serif); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.32; color: var(--text); }
 
 .monarch-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 40px; align-items: stretch; }
+.monarch-row.cols4 { grid-template-columns: repeat(4, 1fr); }
 .monarch { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
 .monarch .m-era { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
 .monarch h4 { font-family: var(--serif); font-size: 22px; margin: 8px 0 8px; color: var(--text); }
@@ -420,7 +422,7 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .vt h4 { font-family: var(--serif); font-size: 21px; margin: 8px 0 10px; }
 .vt p { font-size: 14.5px; color: var(--muted); margin: 0; }
 
-.wwfeature { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 48px); align-items: center; background: linear-gradient(135deg, rgba(90,169,230,0.08), rgba(201,162,75,0.06)); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(28px, 4vw, 44px); }
+.wwfeature { margin-top: 22px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(24px, 4vw, 48px); align-items: center; background: linear-gradient(135deg, rgba(90,169,230,0.08), rgba(201,162,75,0.06)); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(28px, 4vw, 44px); }
 .wwfeature .ww-badge { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--blue-lt); }
 .wwfeature h3 { font-size: clamp(26px, 3.4vw, 38px); margin: 12px 0 16px; }
 .wwfeature h3 .glow { color: var(--blue-lt); }
@@ -437,11 +439,44 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 
 @media (max-width: 900px) {
   .ww-stats { grid-template-columns: repeat(2, 1fr); }
-  .monarch-row { grid-template-columns: 1fr; }
+  .monarch-row, .monarch-row.cols4 { grid-template-columns: 1fr; }
   .monarch:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -13px; transform: translateX(50%); }
   .voice-triad { grid-template-columns: 1fr; }
   .wwfeature { grid-template-columns: 1fr; }
 }
+
+/* ---------- newsletter: the conductor's brief ---------- */
+.brief { background: radial-gradient(900px 460px at 18% 0%, rgba(201,162,75,0.09), transparent 70%), var(--ink-2); }
+.brief-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.brief-points { list-style: none; margin: 26px 0 0; padding: 0; }
+.brief-points li { display: flex; gap: 12px; padding: 9px 0; color: var(--text-soft); font-size: 15.5px; }
+.brief-points li::before { content: ""; flex: 0 0 auto; width: 7px; height: 7px; margin-top: 8px; border-radius: 50%; background: var(--brass); }
+.brief-panel { background: var(--card); border: 1px solid var(--brass-deep); border-radius: var(--radius); padding: 30px; box-shadow: 0 30px 70px -40px rgba(201,162,75,0.35); }
+.brief-panel h3 { font-size: 24px; margin-bottom: 8px; }
+.brief-panel .sub { color: var(--muted); font-size: 15px; margin: 0 0 20px; }
+@media (max-width: 900px) { .brief-grid { grid-template-columns: 1fr; } }
+
+/* honeypot — visually gone, present for bots */
+.hp { position: absolute; left: -9999px; top: -9999px; height: 1px; width: 1px; overflow: hidden; }
+
+/* form status line (success / error after async submit) */
+.form-status { font-size: 14px; margin: 12px 0 0; min-height: 0; }
+.form-status.ok { color: #7fd6a0; }
+.form-status.err { color: #e6a1a1; }
+
+/* sticky book CTA — appears on deep scroll */
+.sticky-cta {
+  position: fixed; right: 22px; bottom: 22px; z-index: 60;
+  display: inline-flex; align-items: center;
+  background: linear-gradient(180deg, var(--brass-lt), var(--brass));
+  color: #211a09; font-weight: 600; font-size: 14.5px;
+  padding: 13px 22px; border-radius: 999px;
+  box-shadow: 0 14px 38px -12px rgba(201,162,75,0.75);
+  opacity: 0; transform: translateY(120%); pointer-events: none;
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+}
+.sticky-cta.show { opacity: 1; transform: none; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .sticky-cta { transition: none; } }
 
 /* ---------- reveal ---------- */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
