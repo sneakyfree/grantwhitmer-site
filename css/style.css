@@ -355,6 +355,36 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .price-note { margin-top: 22px; font-size: 13.5px; color: var(--faint); text-align: center; }
 @media (max-width: 900px) { .price-grid { grid-template-columns: 1fr; } }
 
+/* ---------- proof / data section ---------- */
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 40px; }
+.chart-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 26px 20px; display: flex; flex-direction: column; }
+.chart-card .cc-title { font-family: var(--serif); font-size: 21px; color: var(--text); line-height: 1.15; }
+.chart-card .cc-sub { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+.chart-card .cc-src { font-size: 10.5px; color: var(--faint); margin-top: auto; padding-top: 16px; font-style: italic; }
+.chart-card svg { width: 100%; height: auto; display: block; margin: 18px 0 4px; }
+
+.advchart { margin: 22px 0 6px; display: flex; flex-direction: column; gap: 13px; }
+.adv-row { display: grid; grid-template-columns: 116px 1fr; align-items: center; gap: 14px; }
+.adv-label { font-size: 13.5px; color: var(--text-soft); text-align: right; line-height: 1.15; }
+.adv-label span { color: var(--faint); font-size: 11px; }
+.adv-row.hl .adv-label { color: var(--text); font-weight: 600; }
+.adv-track { display: flex; align-items: center; gap: 11px; }
+.adv-bar { height: 22px; border-radius: 6px; background: linear-gradient(90deg, rgba(90,169,230,0.4), rgba(90,169,230,0.72)); flex: 0 0 auto; min-width: 4px; }
+.adv-row.hl .adv-bar { height: 26px; background: linear-gradient(90deg, var(--brass-deep), var(--brass-lt)); box-shadow: 0 0 22px -5px rgba(201,162,75,0.6); }
+.adv-val { font-family: var(--mono); font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.adv-row.hl .adv-val { color: var(--brass-lt); font-weight: 600; }
+
+.proof-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 18px; }
+.pstat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+.pstat .ps-n { font-family: var(--serif); font-size: clamp(28px, 3.3vw, 38px); color: var(--brass-lt); line-height: 1; }
+.pstat .ps-l { font-size: 13px; color: var(--text-soft); margin-top: 10px; line-height: 1.42; }
+.pstat .ps-src { font-size: 10px; color: var(--faint); margin-top: 9px; font-family: var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+
+@media (max-width: 900px) {
+  .charts-grid { grid-template-columns: 1fr; }
+  .proof-stats { grid-template-columns: 1fr 1fr; }
+}
+
 /* ---------- chapters (soft highlights) ---------- */
 .chapters { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; margin-top: 34px; }
 .chapters .ch { display: flex; gap: 14px; padding: 16px 0; border-top: 1px solid var(--line-soft); color: var(--text-soft); font-size: 15.5px; line-height: 1.55; }
