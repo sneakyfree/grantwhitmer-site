@@ -85,14 +85,19 @@
 
   // sticky Book CTA: appears on deep scroll, hides while booking/newsletter are in view
   var cta = document.getElementById("stickyCta");
-  var bookSection = document.getElementById("book");
   if (cta) {
+    var inView = {};
     var nearForms = false;
-    if (bookSection && "IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        nearForms = entries[0].isIntersecting;
+    if ("IntersectionObserver" in window) {
+      var formsIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { inView[en.target.id] = en.isIntersecting; });
+        nearForms = !!(inView.book || inView.brief);
         update();
-      }, { rootMargin: "0px 0px -20% 0px" }).observe(bookSection);
+      }, { rootMargin: "0px 0px -12% 0px" });
+      ["book", "brief"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) formsIO.observe(el);
+      });
     }
     var update = function () {
       var show = window.scrollY > 1400 && !nearForms;
