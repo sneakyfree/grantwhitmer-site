@@ -14,7 +14,7 @@ function respond(request, ok, message, status) {
     });
   }
   // no-JS fallback: land on the thanks page (or bounce home on error)
-  const to = ok ? "/thanks.html?s=brief" : "/?error=subscribe#brief";
+  const to = ok ? "/thanks?s=brief" : "/?error=subscribe#brief";
   return Response.redirect(new URL(to, request.url), 303);
 }
 
@@ -53,7 +53,8 @@ export async function onRequestPost(context) {
     // Resend signals an existing contact with a 4xx; treat "already exists" as success
     if (!/exist/i.test(body)) {
       console.log("subscribe failed", res.status, body);
-      return respond(request, false, "Something hiccuped on our end — try again in a minute.", 502);
+      // 400, not 502 — Cloudflare replaces 52x responses with its own error page
+      return respond(request, false, "Something hiccuped on our end — try again in a minute.", 400);
     }
     return respond(request, true, "You're already on the list — welcome back.");
   }

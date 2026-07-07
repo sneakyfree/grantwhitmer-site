@@ -11,7 +11,7 @@ function respond(request, ok, message, status) {
       headers: { "Content-Type": "application/json" },
     });
   }
-  const to = ok ? "/thanks.html?s=inquiry" : "/?error=inquiry#book";
+  const to = ok ? "/thanks?s=inquiry" : "/?error=inquiry#book";
   return Response.redirect(new URL(to, request.url), 303);
 }
 
@@ -68,7 +68,8 @@ export async function onRequestPost(context) {
 
   if (!res.ok) {
     console.log("inquire failed", res.status, await res.text());
-    return respond(request, false, "Something hiccuped sending your note — email grant@windstorminstitute.org directly.", 502);
+    // 400, not 502 — Cloudflare replaces 52x responses with its own error page
+    return respond(request, false, "Something hiccuped sending your note — email grant@windstorminstitute.org directly.", 400);
   }
 
   return respond(request, true, "Sent — Grant will reply personally, usually within a day.");
