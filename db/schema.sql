@@ -53,11 +53,20 @@ CREATE TABLE IF NOT EXISTS articles (
   sent_at             TEXT,
   recipient_count     INTEGER,
   resend_broadcast_id TEXT,
+  -- web-publishing + social. A row with published_at set is live on /brief.
+  type                TEXT NOT NULL DEFAULT 'brief',           -- brief | essay
+  slug                TEXT,
+  published_at        TEXT,
+  social_linkedin     TEXT,
+  social_x            TEXT,
+  social_facebook     TEXT,
   created_at          TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at          TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_articles_status  ON articles(status);
 CREATE INDEX IF NOT EXISTS idx_articles_created ON articles(created_at);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_articles_slug ON articles(slug) WHERE slug IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_articles_published   ON articles(published_at);
 
 -- Every sensitive admin action, for accountability
 CREATE TABLE IF NOT EXISTS audit_log (

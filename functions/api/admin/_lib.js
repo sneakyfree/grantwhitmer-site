@@ -8,6 +8,15 @@ export const canDraft = (u) => roleRank(u?.role) >= roleRank("manager");
 export const canApproveSend = (u) => roleRank(u?.role) >= roleRank("admin");
 export const canManageTeam = (u) => roleRank(u?.role) >= roleRank("super_admin");
 
+export function slugify(subject, id) {
+  const base = String(subject || "issue").toLowerCase()
+    .replace(/['".,!?:;]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60) || "issue";
+  return `${base}-${id}`;
+}
+
 export const json = (obj, status = 200) => Response.json(obj, { status });
 export const forbidden = (m) => json({ ok: false, error: m || "Forbidden" }, 403);
 export const bad = (m) => json({ ok: false, error: m || "Bad request" }, 400);

@@ -1,7 +1,7 @@
 // POST /api/admin/articles/:id/send — send an approved issue to the audience
 // via a Resend Broadcast (Resend appends the required unsubscribe footer).
 
-import { canApproveSend, audit, json, forbidden, bad } from "../../_lib.js";
+import { canApproveSend, audit, json, forbidden, bad, slugify } from "../../_lib.js";
 
 export async function onRequestPost(context) {
   const { env, data, params } = context;
@@ -48,11 +48,16 @@ export async function onRequestPost(context) {
   }
 
   const recip = await env.DB.prepare("SELECT COUNT(*) AS c FROM members WHERE status = 'active'").first();
+
+  // sending also publishes the issue to the public /brief archive
+  const slug = a.slug || slugify(a.subject, a.id);
   await env.DB.prepare(
     `UPDATE articles SET status = 'sent', sent_at = datetime('now'),
-       recipient_count = ?1, resend_broadcast_id = ?2, updated_at = datetime('now') WHERE id = ?3`
-  ).bind(recip.c || 0, broadcastId, params.id).run();
+       recipient_count = ?1, resend_broadcast_id = ?2,
+       slug = COALESCE(slug, ?3), published_at = COALESCE(published_at, datetime('now')),
+       updated_at = datetime('now') WHERE id = ?4`
+  ).bind(recip.c || 0, broadcastId, slug, params.id).run();
 
-  await audit(env, data.user.email, "article.send", { id: a.id, broadcastId, recipients: recip.c || 0 });
-  return json({ ok: true, sent: true, recipients: recip.c || 0, broadcastId });
+  await audit(env, data.user.email, "article.send", { id: a.id, broadcastId, recipients: recip.c || 0, slug });
+  return json({ ok: true, sent: true, recipients: recip.c || 0, broadcastId, slug });
 }

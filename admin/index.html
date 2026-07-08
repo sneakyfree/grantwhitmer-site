@@ -92,6 +92,20 @@
   .ed-preview .ep-k { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #8a8577; padding: 10px 16px; border-bottom: 1px solid #e2ddd0; }
   .ed-preview iframe { flex: 1; width: 100%; border: 0; background: #fff; }
   .ed-foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 16px 24px; border-top: 1px solid var(--line-soft); }
+  .ed-distrib { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+  .ed-distrib h4 { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass); margin: 0 0 12px; }
+  .pub-state { font-size: 13.5px; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pub-dot { width: 8px; height: 8px; border-radius: 50%; background: #7fd6a0; display: inline-block; }
+  .soc { margin-bottom: 14px; }
+  .soc-lbl { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .soc-lbl span { font-size: 12px; color: var(--text-soft); font-weight: 500; }
+  .soc-lbl .soc-btns { display: flex; gap: 6px; }
+  .soc textarea { width: 100%; background: var(--ink-2); border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 9px 11px; font-family: var(--sans); font-size: 13px; min-height: 62px; resize: vertical; }
+  .soc textarea:focus { outline: none; border-color: var(--brass); }
+  .mini { font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--muted); background: transparent; cursor: pointer; }
+  .mini:hover { border-color: var(--brass); color: var(--brass-lt); }
+  .pill.essay { color: var(--blue-lt); border-color: rgba(140,198,242,.4); }
+  .pill.published { color: #7fd6a0; border-color: rgba(127,214,160,.4); }
   .ed-status { color: var(--muted); font-size: 13px; margin-left: auto; }
   .ed-status.ok { color: #7fd6a0; } .ed-status.err { color: #e6a1a1; }
   .btn.btn-danger { border-color: rgba(230,161,161,.4); color: #e6a1a1; background: transparent; }
@@ -143,7 +157,10 @@
         <h2>The Conductor's Brief</h2>
         <p class="p-sub">Draft, review, approve, and send the weekly issue.</p>
       </div>
-      <button class="btn btn-primary btn-sm" id="newIssueBtn">+ New issue</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-sm" id="newEssayBtn">+ Essay</button>
+        <button class="btn btn-primary btn-sm" id="newIssueBtn">+ New issue</button>
+      </div>
     </div>
     <div id="articles" class="loading">Loading…</div>
   </section>
@@ -209,6 +226,7 @@
         <div class="field"><label for="edSubject">Subject line</label><input id="edSubject" type="text" maxlength="200" placeholder="This week in the Singularity…" /></div>
         <div class="field"><label for="edPreview">Preview text <span style="color:var(--faint)">(inbox preheader)</span></label><input id="edPreview" type="text" maxlength="200" /></div>
         <div class="field"><label for="edBody">Body (HTML)</label><textarea id="edBody" spellcheck="false"></textarea></div>
+        <div id="edDistrib" class="ed-distrib"></div>
       </div>
       <div class="ed-preview">
         <div class="ep-k">Live preview</div>
@@ -281,7 +299,7 @@ async function loadArticles() {
     const d = await api("/api/admin/articles");
     if (!d.articles.length) { $("articles").innerHTML = `<div class="empty">No issues yet — start the first one.</div>`; return; }
     $("articles").innerHTML = `<table class="data clickable"><thead><tr><th>Subject</th><th>Status</th><th>By</th><th>Recipients</th><th>When</th></tr></thead><tbody>` +
-      d.articles.map(a => `<tr data-id="${a.id}"><td class="em">${esc(a.subject)}</td><td><span class="pill ${esc(a.status)}">${esc(a.status)}</span></td><td>${esc((a.created_by||"").split("@")[0]||"—")}</td><td>${a.recipient_count!=null?a.recipient_count:"—"}</td><td>${fmtDate(a.sent_at||a.created_at)}</td></tr>`).join("") + `</tbody></table>`;
+      d.articles.map(a => `<tr data-id="${a.id}"><td class="em">${esc(a.subject)}${a.type==='essay'?' <span class="pill essay">essay</span>':''}</td><td><span class="pill ${esc(a.status)}">${esc(a.status)}</span>${a.published_at?' <span class="pill published">live</span>':''}</td><td>${esc((a.created_by||"").split("@")[0]||"—")}</td><td>${a.recipient_count!=null?a.recipient_count:"—"}</td><td>${fmtDate(a.sent_at||a.created_at)}</td></tr>`).join("") + `</tbody></table>`;
     document.querySelectorAll("#articles tr[data-id]").forEach(tr => tr.addEventListener("click", () => openEditor(tr.dataset.id)));
   } catch (e) { $("articles").innerHTML = `<div class="err">Couldn't load issues (${esc(e.message)}).</div>`; }
 }
@@ -307,13 +325,26 @@ const NEW_TEMPLATE = `<div style="font-family:Georgia,serif;font-size:17px;line-
   <p style="margin-top:28px;">Set your sails,<br>Grant</p>
 </div>`;
 
+const ESSAY_TEMPLATE = `<div style="font-family:Georgia,serif;font-size:17px;line-height:1.7;color:#1a1a1a;max-width:600px;margin:0 auto;">
+  <h1 style="font-size:28px;margin:0 0 18px;line-height:1.2;">Title of the essay</h1>
+  <p>Open with the idea — the thing you want the reader to see differently.</p>
+  <h2 style="font-size:20px;margin:28px 0 8px;">A turn in the argument</h2>
+  <p>…</p>
+  <p style="margin-top:28px;">— Grant Whitmer</p>
+</div>`;
+
+const val = (id) => { const e = $(id); return e ? e.value : ""; };
+const shareUrl = (a) => a && a.slug ? `https://grantwhitmer.com/brief/${a.slug}` : "https://grantwhitmer.com";
+
 function updatePreview() { $("edFrame").srcdoc = $("edBody").value; }
 
-async function openEditor(id) {
-  let a = { id: null, subject: "", preview: "", body_html: NEW_TEMPLATE, status: "draft" };
+async function openEditor(id, newType) {
+  let a = { id: null, subject: "", preview: "", body_html: newType==='essay'?ESSAY_TEMPLATE:NEW_TEMPLATE, status: "draft",
+            type: newType || "brief", slug: null, published_at: null, social_x: "", social_linkedin: "", social_facebook: "" };
   if (id) { a = (await api("/api/admin/articles/" + id)).article; }
   state.current = a;
-  $("edTitle").textContent = id ? `Issue #${a.id}` : "New issue";
+  const kindLabel = a.type === 'essay' ? 'Essay' : 'Issue';
+  $("edTitle").textContent = id ? `${kindLabel} #${a.id}` : (a.type==='essay' ? "New essay" : "New issue");
   $("edSubject").value = a.subject || "";
   $("edPreview").value = a.preview || "";
   $("edBody").value = a.body_html || "";
@@ -321,7 +352,45 @@ async function openEditor(id) {
   ["edSubject","edPreview","edBody"].forEach(f => $(f).readOnly = ro);
   updatePreview();
   renderEditorActions(a);
+  renderDistribution(a);
   $("editor").classList.remove("hidden");
+}
+
+function renderDistribution(a) {
+  const url = shareUrl(a);
+  const isBrief = a.type !== 'essay';
+  let pub;
+  if (a.published_at) {
+    pub = `<div class="pub-state"><span class="pub-dot"></span> Live on the site — <a href="${url}" target="_blank" style="color:var(--brass-lt)">View post ↗</a>${can('admin')?` <button class="mini" data-act="unpublish">Unpublish</button>`:''}</div>`;
+  } else if (isBrief) {
+    pub = `<div class="pub-state">Publishes to /brief automatically when you send.${((a.status==='approved')&&can('admin'))?` <button class="mini" data-act="publish">Publish now (no email)</button>`:''}</div>`;
+  } else {
+    pub = `<div class="pub-state">Not on the site yet.${can('admin')?` <button class="mini" data-act="publish">Publish to site</button>`:''}</div>`;
+  }
+  const fields = [['social_x','X / Twitter'],['social_linkedin','LinkedIn'],['social_facebook','Facebook']].map(([k,label]) => `
+    <div class="soc">
+      <div class="soc-lbl"><span>${label}</span><div class="soc-btns">
+        <button class="mini" data-copy="${k}">Copy</button>
+        <button class="mini" data-open="${k}">Open ${label.split(' ')[0]}</button>
+      </div></div>
+      <textarea id="ed_${k}" placeholder="${label} post — the auto-drafter fills this; edit freely.">${esc(a[k]||"")}</textarea>
+    </div>`).join("");
+  $("edDistrib").innerHTML = `<h4>Publish &amp; share</h4>${pub}
+    <div style="font-size:12px;color:var(--faint);margin:0 0 12px;">Post copy for your own accounts. Edit → Copy → Open the composer (X pre-fills; LinkedIn/Facebook copy the text so you can paste). Shared link: ${a.slug?esc(url):'homepage until published'}.</div>
+    ${fields}`;
+  $("edDistrib").querySelectorAll("button[data-act]").forEach(b => b.addEventListener("click", () => editorAction(b.dataset.act)));
+  $("edDistrib").querySelectorAll("button[data-copy]").forEach(b => b.addEventListener("click", () => {
+    const t = val("ed_" + b.dataset.copy);
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => { b.textContent = "Copied ✓"; setTimeout(() => b.textContent = "Copy", 1400); });
+  }));
+  $("edDistrib").querySelectorAll("button[data-open]").forEach(b => b.addEventListener("click", () => {
+    const k = b.dataset.open, text = val("ed_" + k), u = shareUrl(state.current);
+    let intent;
+    if (k === 'social_x') intent = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text + (text?"\n\n":"") + u);
+    else if (k === 'social_linkedin') { if (navigator.clipboard) navigator.clipboard.writeText(text); intent = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(u); }
+    else { if (navigator.clipboard) navigator.clipboard.writeText(text); intent = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(u); }
+    window.open(intent, '_blank', 'noopener,width=600,height=650');
+  }));
 }
 function closeEditor() { $("editor").classList.add("hidden"); state.current = null; }
 
@@ -332,15 +401,16 @@ function edStatus(msg, cls) {
 
 function renderEditorActions(a) {
   const btns = [];
-  const st = a.status;
+  const st = a.status, essay = a.type === 'essay';
   if (st === "sent") {
     btns.push(`<span class="pill sent">sent</span>`);
     btns.push(`<span style="color:var(--muted);font-size:13px;">${a.recipient_count||0} recipients · ${fmtDate(a.sent_at)}</span>`);
+    if (can("manager")) btns.push(`<button class="btn btn-ghost btn-sm" data-act="save">Save social</button>`);
   } else {
     if (can("manager")) btns.push(`<button class="btn btn-ghost btn-sm" data-act="save">Save draft</button>`);
     if (st === "draft" && can("manager") && !can("admin")) btns.push(`<button class="btn btn-ghost btn-sm" data-act="submit">Submit for approval</button>`);
     if ((st === "draft" || st === "pending") && can("admin")) btns.push(`<button class="btn btn-primary btn-sm" data-act="approve">Approve</button>`);
-    if (st === "approved" && can("admin")) btns.push(`<button class="btn btn-primary btn-sm" data-act="send">Send now →</button>`);
+    if (!essay && st === "approved" && can("admin")) btns.push(`<button class="btn btn-primary btn-sm" data-act="send">Send now →</button>`);
     if (st === "approved" && can("admin")) btns.push(`<button class="btn btn-ghost btn-sm" data-act="unapprove">Return to draft</button>`);
     if (a.id && can("admin")) btns.push(`<button class="btn btn-danger btn-sm" data-act="delete">Discard</button>`);
   }
@@ -350,7 +420,13 @@ function renderEditorActions(a) {
 }
 
 async function saveCurrent(extra) {
-  const payload = Object.assign({ subject: $("edSubject").value, preview: $("edPreview").value, body_html: $("edBody").value }, extra || {});
+  const social = { social_x: val("ed_social_x"), social_linkedin: val("ed_social_linkedin"), social_facebook: val("ed_social_facebook") };
+  let payload;
+  if (state.current.status === "sent") {
+    payload = Object.assign({}, social, extra || {});               // sent: only social is editable
+  } else {
+    payload = Object.assign({ subject: $("edSubject").value, preview: $("edPreview").value, body_html: $("edBody").value, type: state.current.type || "brief" }, social, extra || {});
+  }
   if (!state.current.id) {
     const r = await api("/api/admin/articles", { method: "POST", body: JSON.stringify(payload) });
     state.current.id = r.id;
@@ -364,22 +440,24 @@ async function editorAction(act) {
     edStatus("Working…");
     if (act === "save") { await saveCurrent(); edStatus("Saved.", "ok"); }
     else if (act === "submit") { await saveCurrent({ status: "pending" }); edStatus("Submitted for approval.", "ok"); }
-    else if (act === "approve") { await saveCurrent({ status: "approved" }); edStatus("Approved — ready to send.", "ok"); }
+    else if (act === "approve") { await saveCurrent({ status: "approved" }); edStatus("Approved.", "ok"); }
     else if (act === "unapprove") { await saveCurrent({ status: "draft" }); edStatus("Returned to draft.", "ok"); }
+    else if (act === "publish") { await saveCurrent(); await api("/api/admin/articles/" + state.current.id, { method: "PATCH", body: JSON.stringify({ publish: true }) }); edStatus("Published to the site.", "ok"); }
+    else if (act === "unpublish") { await api("/api/admin/articles/" + state.current.id, { method: "PATCH", body: JSON.stringify({ publish: false }) }); edStatus("Unpublished.", "ok"); }
     else if (act === "delete") {
-      if (!confirm("Discard this issue permanently?")) { edStatus(""); return; }
+      if (!confirm("Discard permanently?")) { edStatus(""); return; }
       await api("/api/admin/articles/" + state.current.id, { method: "DELETE" });
       closeEditor(); loadArticles(); boot(); return;
     } else if (act === "send") {
       await saveCurrent();
-      if (!confirm("Send this issue to every active member now? This can't be undone.")) { edStatus(""); return; }
+      if (!confirm("Send this issue to every active member now, and publish it to the site? This can't be undone.")) { edStatus(""); return; }
       const r = await api("/api/admin/articles/" + state.current.id + "/send", { method: "POST", body: "{}" });
-      edStatus(`Sent to ${r.recipients} members.`, "ok");
-      setTimeout(() => { closeEditor(); loadArticles(); boot(); }, 1200);
+      edStatus(`Sent to ${r.recipients} members — now live at /brief/${r.slug}.`, "ok");
+      setTimeout(() => { closeEditor(); loadArticles(); boot(); }, 1600);
       return;
     }
     const fresh = (await api("/api/admin/articles/" + state.current.id)).article;
-    state.current = fresh; renderEditorActions(fresh); loadArticles();
+    state.current = fresh; renderEditorActions(fresh); renderDistribution(fresh); loadArticles();
   } catch (e) { edStatus(e.message, "err"); }
 }
 
@@ -425,6 +503,7 @@ async function boot() {
   $("whoRole").textContent = (s.user.role || "").replace("_", " ");
   renderTiles(s); renderGrowth(s.growth); renderRecentMembers(s.recentMembers); renderRecentInquiries(s.recentInquiries);
   $("newIssueBtn").classList.toggle("hidden", !can("manager"));
+  $("newEssayBtn").classList.toggle("hidden", !can("manager"));
   $("teamPanel").classList.toggle("hidden", !can("super_admin"));
   if (can("super_admin")) loadTeam();
 }
@@ -435,7 +514,8 @@ function init() {
   loadRegistry();
   $("q").addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(loadRegistry, 250); });
   $("statusFilter").addEventListener("change", loadRegistry);
-  $("newIssueBtn").addEventListener("click", () => openEditor(null));
+  $("newIssueBtn").addEventListener("click", () => openEditor(null, "brief"));
+  $("newEssayBtn").addEventListener("click", () => openEditor(null, "essay"));
   $("edClose").addEventListener("click", closeEditor);
   $("edBody").addEventListener("input", () => { clearTimeout(window._pv); window._pv = setTimeout(updatePreview, 200); });
   $("addAdminBtn").addEventListener("click", addAdmin);
