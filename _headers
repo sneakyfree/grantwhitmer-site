@@ -15,3 +15,7 @@
   X-Robots-Tag: noindex
 /404.html
   X-Robots-Tag: noindex
+/admin
+  X-Robots-Tag: noindex, nofollow
+/admin/*
+  X-Robots-Tag: noindex, nofollow

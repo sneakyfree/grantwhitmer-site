@@ -32,9 +32,25 @@ export async function onRequestPost(context) {
     return respond(request, true, "You're in — welcome aboard.");
   }
 
-  const email = (form.get("email") || "").toString().trim().slice(0, 254);
+  const email = (form.get("email") || "").toString().trim().toLowerCase().slice(0, 254);
   if (!EMAIL_RE.test(email)) {
     return respond(request, false, "That email doesn't look right — give it another try.");
+  }
+
+  const source = (form.get("source") || "newsletter").toString().slice(0, 40);
+
+  // D1 is the source of truth — record the member first (best-effort; a DB
+  // hiccup must not cost us the signup, so we log and press on to Resend).
+  if (env.DB) {
+    try {
+      await env.DB.prepare(
+        `INSERT INTO members (email, source, status)
+         VALUES (?1, ?2, 'active')
+         ON CONFLICT(email) DO UPDATE SET status = 'active', updated_at = datetime('now')`
+      ).bind(email, source).run();
+    } catch (e) {
+      console.log("D1 member upsert failed", email, String(e));
+    }
   }
 
   const auth = {
@@ -57,6 +73,19 @@ export async function onRequestPost(context) {
       return respond(request, false, "Something hiccuped on our end — try again in a minute.", 400);
     }
     return respond(request, true, "You're already on the list — welcome back.");
+  }
+
+  // capture the Resend contact id back onto the member row (best-effort)
+  if (env.DB) {
+    context.waitUntil(
+      res.json().then((body) => {
+        const cid = body && body.id;
+        if (cid) {
+          return env.DB.prepare(`UPDATE members SET resend_contact_id = ?1 WHERE email = ?2`)
+            .bind(cid, email).run();
+        }
+      }).catch(() => {})
+    );
   }
 
   // best-effort welcome note; a failure here shouldn't fail the signup

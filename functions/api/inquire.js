@@ -72,5 +72,19 @@ export async function onRequestPost(context) {
     return respond(request, false, "Something hiccuped sending your note — email grant@windstorminstitute.org directly.", 400);
   }
 
+  // log to the cockpit (best-effort — the email already went out)
+  if (env.DB) {
+    let emailId = null;
+    try { emailId = (await res.json()).id || null; } catch { /* ignore */ }
+    context.waitUntil(
+      env.DB.prepare(
+        `INSERT INTO inquiries (name, email, organization, engagement, message, resend_email_id)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6)`
+      ).bind(name, email, org || null, engagement || null, message, emailId).run().catch((e) =>
+        console.log("D1 inquiry insert failed", String(e))
+      )
+    );
+  }
+
   return respond(request, true, "Sent — Grant will reply personally, usually within a day.");
 }

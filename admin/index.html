@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Cockpit — Grant Whitmer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230A0C10'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='54' fill='%23E4C578' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/style.css?v=20260707c" />
+<style>
+  body { padding-bottom: 60px; }
+  .cockpit-nav { position: sticky; top: 0; z-index: 50; background: rgba(10,12,16,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line-soft); }
+  .cockpit-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+  .cockpit-nav .brand { font-family: var(--serif); font-size: 20px; }
+  .cockpit-nav .brand b { color: var(--brass-lt); }
+  .cockpit-nav .who { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--muted); }
+  .role-badge { font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--brass); border: 1px solid var(--brass-deep); border-radius: 999px; padding: 4px 10px; }
+  .signout { color: var(--faint); font-size: 13px; }
+  .signout:hover { color: var(--brass-lt); }
+
+  .cock-head { margin: 34px 0 6px; }
+  .cock-head h1 { font-size: clamp(28px,4vw,40px); }
+  .cock-sub { color: var(--muted); font-size: 15px; margin-top: 6px; }
+
+  .tiles { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 26px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+  .tile .t-k { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .tile .t-n { font-family: var(--serif); font-size: clamp(30px,4vw,42px); color: var(--brass-lt); line-height: 1; margin-top: 12px; }
+  .tile .t-d { font-size: 12.5px; color: var(--faint); margin-top: 8px; }
+  .tile.alert .t-n { color: var(--blue-lt); }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px; margin-top: 22px; }
+  .panel h2 { font-family: var(--serif); font-size: 21px; margin: 0 0 4px; }
+  .panel .p-sub { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 22px; }
+
+  .growth { display: flex; align-items: flex-end; gap: 6px; height: 120px; margin-top: 10px; }
+  .growth .bar { flex: 1; background: linear-gradient(180deg, var(--brass-lt), var(--brass-deep)); border-radius: 4px 4px 0 0; min-height: 3px; position: relative; opacity: .9; transition: opacity .2s; }
+  .growth .bar:hover { opacity: 1; }
+  .growth .bar[data-c="0"] { background: var(--line); }
+  .growth-x { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--faint); margin-top: 8px; }
+
+  table.data { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.data th { text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding: 0 12px 12px 0; border-bottom: 1px solid var(--line); }
+  table.data td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line-soft); color: var(--text-soft); vertical-align: top; }
+  table.data tr:last-child td { border-bottom: 0; }
+  table.data .em { color: var(--text); }
+  .pill { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .pill.active { color: #7fd6a0; border-color: rgba(127,214,160,.4); }
+  .pill.unsub { color: var(--faint); }
+  .pill.new { color: var(--blue-lt); border-color: rgba(140,198,242,.4); }
+
+  .registry-controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
+  .registry-controls input, .registry-controls select { background: var(--ink-2); border: 1px solid var(--line); color: var(--text); border-radius: 10px; padding: 10px 12px; font-family: var(--sans); font-size: 14px; }
+  .registry-controls input { flex: 1; min-width: 180px; }
+  .registry-controls input:focus, .registry-controls select:focus { outline: none; border-color: var(--brass); }
+  .count-note { color: var(--faint); font-size: 13px; margin-left: auto; }
+
+  .msg-preview { color: var(--muted); font-size: 13px; max-width: 42ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .loading, .empty { color: var(--faint); font-size: 14px; padding: 20px 0; }
+  .err { color: #e6a1a1; font-size: 14px; padding: 16px; border: 1px solid rgba(230,161,161,.3); border-radius: 12px; background: rgba(230,161,161,.06); }
+
+  @media (max-width: 820px) {
+    .tiles { grid-template-columns: 1fr 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .msg-preview { max-width: 60vw; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cockpit-nav">
+  <div class="wrap">
+    <a class="brand" href="/admin">Grant <b>Whitmer</b> · Cockpit</a>
+    <div class="who">
+      <span id="whoEmail">—</span>
+      <span class="role-badge" id="whoRole">—</span>
+      <a class="signout" href="/cdn-cgi/access/logout">Sign out</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="cock-head">
+    <h1>Control center</h1>
+    <p class="cock-sub">Everything happening across grantwhitmer.com and The Conductor's Brief.</p>
+  </div>
+
+  <div id="fatal"></div>
+
+  <section class="tiles" id="tiles"></section>
+
+  <section class="panel">
+    <h2>Community growth</h2>
+    <p class="p-sub">New members per day, last 14 days.</p>
+    <div class="growth" id="growth"></div>
+    <div class="growth-x" id="growthX"></div>
+  </section>
+
+  <div class="grid-2">
+    <section class="panel">
+      <h2>Recent signups</h2>
+      <p class="p-sub">Newest members to the community.</p>
+      <div id="recentMembers" class="loading">Loading…</div>
+    </section>
+    <section class="panel">
+      <h2>Recent inquiries</h2>
+      <p class="p-sub">Booking-form submissions.</p>
+      <div id="recentInquiries" class="loading">Loading…</div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Member registry</h2>
+    <p class="p-sub">The full community — search, filter, and export.</p>
+    <div class="registry-controls">
+      <input id="q" type="search" placeholder="Search by email…" />
+      <select id="statusFilter">
+        <option value="">All statuses</option>
+        <option value="active">Active</option>
+        <option value="unsubscribed">Unsubscribed</option>
+      </select>
+      <a id="exportBtn" class="btn btn-ghost btn-sm" href="/api/admin/members?format=csv">Export CSV ↓</a>
+      <span class="count-note" id="countNote"></span>
+    </div>
+    <div id="registry" class="loading">Loading…</div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => (s == null ? "" : String(s)).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtDate = (s) => { if(!s) return "—"; const d = new Date(s.replace(" ","T")+"Z"); return isNaN(d) ? esc(s) : d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}); };
+const statusPill = (s) => `<span class="pill ${s==='active'?'active':'unsub'}">${esc(s)}</span>`;
+
+async function api(path) {
+  const r = await fetch(path, { headers: { Accept: "application/json" }, credentials: "same-origin" });
+  if (!r.ok) throw new Error(`${r.status}`);
+  return r.json();
+}
+
+function renderTiles(d) {
+  $("tiles").innerHTML = [
+    { k: "Members", n: d.members.total, dsc: `${d.members.active} active` },
+    { k: "New this week", n: d.members.last7, dsc: `${d.members.last30} in 30 days` },
+    { k: "Inquiries", n: d.inquiries.total, dsc: `${d.inquiries.unread} unread`, alert: d.inquiries.unread > 0 },
+    { k: "Admins", n: d.admins, dsc: "with cockpit access" },
+  ].map(t => `<div class="tile ${t.alert?'alert':''}"><div class="t-k">${t.k}</div><div class="t-n">${t.n}</div><div class="t-d">${t.dsc}</div></div>`).join("");
+}
+
+function renderGrowth(series) {
+  const max = Math.max(1, ...series.map(s => s.count));
+  $("growth").innerHTML = series.map(s =>
+    `<div class="bar" data-c="${s.count}" style="height:${Math.round((s.count/max)*100)}%" title="${s.date}: ${s.count}"></div>`
+  ).join("");
+  $("growthX").innerHTML = `<span>${series[0].date.slice(5)}</span><span>${series[series.length-1].date.slice(5)}</span>`;
+}
+
+function renderRecentMembers(rows) {
+  if (!rows.length) { $("recentMembers").outerHTML = `<div id="recentMembers" class="empty">No members yet.</div>`; return; }
+  $("recentMembers").outerHTML = `<div id="recentMembers"><table class="data"><thead><tr><th>Email</th><th>Source</th><th>Joined</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td class="em">${esc(r.email)}</td><td>${esc(r.source||"—")}</td><td>${fmtDate(r.created_at)}</td></tr>`).join("") +
+    `</tbody></table></div>`;
+}
+
+function renderRecentInquiries(rows) {
+  if (!rows.length) { $("recentInquiries").outerHTML = `<div id="recentInquiries" class="empty">No inquiries yet.</div>`; return; }
+  $("recentInquiries").outerHTML = `<div id="recentInquiries"><table class="data"><thead><tr><th>From</th><th>Engagement</th><th>When</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td class="em">${esc(r.name)}<div class="msg-preview">${esc(r.organization||r.email)}</div></td><td>${esc(r.engagement||"—")}</td><td>${fmtDate(r.created_at)}</td></tr>`).join("") +
+    `</tbody></table></div>`;
+}
+
+function renderRegistry(d) {
+  $("countNote").textContent = `${d.total} member${d.total===1?"":"s"}`;
+  if (!d.members.length) { $("registry").innerHTML = `<div class="empty">No members match.</div>`; return; }
+  $("registry").innerHTML = `<table class="data"><thead><tr><th>Email</th><th>Status</th><th>Source</th><th>Windy Word</th><th>Joined</th></tr></thead><tbody>` +
+    d.members.map(r => `<tr><td class="em">${esc(r.email)}</td><td>${statusPill(r.status)}</td><td>${esc(r.source||"—")}</td><td>${r.ww_entitlement?'<span class="pill active">granted</span>':'<span class="pill unsub">—</span>'}</td><td>${fmtDate(r.created_at)}</td></tr>`).join("") +
+    `</tbody></table>`;
+}
+
+let searchTimer;
+async function loadRegistry() {
+  const q = $("q").value.trim();
+  const status = $("statusFilter").value;
+  const params = new URLSearchParams();
+  if (q) params.set("q", q);
+  if (status) params.set("status", status);
+  $("exportBtn").href = "/api/admin/members?format=csv" + (params.toString() ? "&" + params.toString() : "");
+  try {
+    renderRegistry(await api("/api/admin/members?" + params.toString()));
+  } catch (e) { $("registry").innerHTML = `<div class="err">Couldn't load the registry (${esc(e.message)}).</div>`; }
+}
+
+async function boot() {
+  try {
+    const s = await api("/api/admin/stats");
+    $("whoEmail").textContent = s.user.email;
+    $("whoRole").textContent = (s.user.role || "").replace("_", " ");
+    renderTiles(s);
+    renderGrowth(s.growth);
+    renderRecentMembers(s.recentMembers);
+    renderRecentInquiries(s.recentInquiries);
+  } catch (e) {
+    $("fatal").innerHTML = `<div class="err">Couldn't load the cockpit (${esc(e.message)}). If this says 403, your account isn't provisioned as an admin yet.</div>`;
+    return;
+  }
+  loadRegistry();
+  $("q").addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(loadRegistry, 250); });
+  $("statusFilter").addEventListener("change", loadRegistry);
+}
+boot();
+</script>
+</body>
+</html>
