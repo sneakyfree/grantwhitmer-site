@@ -40,6 +40,25 @@ CREATE TABLE IF NOT EXISTS admins (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- The Conductor's Brief — newsletter issues through their review lifecycle
+CREATE TABLE IF NOT EXISTS articles (
+  id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+  subject             TEXT NOT NULL,
+  preview             TEXT,                                -- inbox preheader
+  body_html           TEXT NOT NULL,
+  status              TEXT NOT NULL DEFAULT 'draft',       -- draft | pending | approved | sent
+  created_by          TEXT,
+  approved_by         TEXT,
+  approved_at         TEXT,
+  sent_at             TEXT,
+  recipient_count     INTEGER,
+  resend_broadcast_id TEXT,
+  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at          TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_articles_status  ON articles(status);
+CREATE INDEX IF NOT EXISTS idx_articles_created ON articles(created_at);
+
 -- Every sensitive admin action, for accountability
 CREATE TABLE IF NOT EXISTS audit_log (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,

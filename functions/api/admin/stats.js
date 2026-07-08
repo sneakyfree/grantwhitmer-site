@@ -4,7 +4,7 @@ export async function onRequestGet(context) {
   const { env, data } = context;
   const db = env.DB;
 
-  const [counts, recentMembers, recentInquiries, growth, inqCounts, adminCount] = await Promise.all([
+  const [counts, recentMembers, recentInquiries, growth, inqCounts, adminCount, articleCounts] = await Promise.all([
     db.prepare(
       `SELECT
          COUNT(*) AS total,
@@ -32,6 +32,14 @@ export async function onRequestGet(context) {
        FROM inquiries`
     ).first(),
     db.prepare(`SELECT COUNT(*) AS c FROM admins`).first(),
+    db.prepare(
+      `SELECT
+         SUM(CASE WHEN status IN ('draft','pending','approved') THEN 1 ELSE 0 END) AS open,
+         SUM(CASE WHEN status='pending'  THEN 1 ELSE 0 END) AS pending,
+         SUM(CASE WHEN status='approved' THEN 1 ELSE 0 END) AS approved,
+         SUM(CASE WHEN status='sent'     THEN 1 ELSE 0 END) AS sent
+       FROM articles`
+    ).first(),
   ]);
 
   // build a dense 14-day growth series (fill zero days)
@@ -56,6 +64,12 @@ export async function onRequestGet(context) {
       last30: counts.last30 || 0,
     },
     inquiries: { total: inqCounts.total || 0, unread: inqCounts.unread || 0 },
+    articles: {
+      open: articleCounts.open || 0,
+      pending: articleCounts.pending || 0,
+      approved: articleCounts.approved || 0,
+      sent: articleCounts.sent || 0,
+    },
     admins: adminCount.c || 0,
     growth: series,
     recentMembers: recentMembers.results,
