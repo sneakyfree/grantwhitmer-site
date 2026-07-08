@@ -105,7 +105,7 @@ export async function onRequestPost(context) {
           "<p>Short, plain-spoken, and worth your five minutes — that's the deal. Unsubscribe any time with one click; no hard feelings.</p>",
           "<div style='margin:26px 0;padding:20px 22px;background:#f4f1e8;border-radius:12px;'>",
           "<p style='margin:0 0 6px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#8a7a3a;'>A gift for joining</p>",
-          "<p style='margin:0 0 14px;'><b>Windy Word is yours, free.</b> It's the voice-to-text tool I built by voice — turn the thoughts in your head into clean text on a screen, in 99 languages, running locally on your own machine. The same tool I wrote this whole newsletter with.</p>",
+          "<p style='margin:0 0 14px;'><b>Windy Word is yours, free.</b> It's the voice-to-text tool I built by voice — turn the thoughts in your head into clean text on a screen, in 99 languages. It runs entirely on your own machine: no cloud, no subscription, nothing ever leaves your device. The same tool I wrote this whole newsletter with.</p>",
           "<p style='margin:0;'><a href='https://windyword.ai' style='display:inline-block;background:#1a1a1a;color:#f4f1e8;text-decoration:none;padding:11px 22px;border-radius:999px;font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;'>Download Windy Word — free →</a></p>",
           "</div>",
           "<p>While you wait for the first issue, the site has the whole story: <a href='https://grantwhitmer.com'>grantwhitmer.com</a></p>",
