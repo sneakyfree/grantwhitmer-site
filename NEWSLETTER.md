@@ -18,8 +18,12 @@ windstormlabs.com, windyword.ai, books' QR codes, future thewindstorm.ai).
   (account grantwhitmer3@gmail.com, Pro plan).
 - **API key:** `GrantWhitmerSiteV2` (full-access; set as `RESEND_API_KEY` on the
   Pages project `grantwhitmer` — full value in the fleet lockbox / Resend dashboard).
-- **Sender:** `The Windstorm <grant@grantwhitmer.com>` — domain verified in Resend
-  (`MAIL_FROM` env var on the Pages project).
+- **Sender:** `The Windstorm <eye@thewindstorm.ai>` (`MAIL_FROM` env var on the
+  Pages project) — thewindstorm.ai verified in Resend 2026-07-10 (domain id
+  56e3be5c…, DKIM/SPF on the CF zone). grant@grantwhitmer.com remains verified
+  as fallback. Replies to eye@ deliver to Grant's founder mailbox
+  (gwhitmer@windstorminstitute.org) via Stalwart alias — as do grant@/hello@/
+  info@/office@/newsletter@thewindstorm.ai.
 - **Booking inquiries** use the same plumbing: `POST /api/inquire` → email to
   grant@windstorminstitute.org with reply-to set to the sender.
 
