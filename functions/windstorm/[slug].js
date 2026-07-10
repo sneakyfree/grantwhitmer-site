@@ -1,6 +1,17 @@
-// GET /windstorm/:slug — a single published post (light "letter" card on the dark site)
+// GET /windstorm/:slug — a single published post (light "letter" card on the dark site).
+// When an episode_url is set the page doubles as the episode's show-notes page
+// (embed + transcript), so every YouTube description can point one canonical URL here.
 
 import { esc, fmtDate, shell } from "../_web.js";
+
+// tolerate every common YouTube URL shape; null → not a YouTube link
+function ytId(url) {
+  if (!url) return null;
+  const m = String(url).match(
+    /(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|live\/|shorts\/)|youtu\.be\/)([\w-]{11})/
+  );
+  return m ? m[1] : null;
+}
 
 export async function onRequestGet(context) {
   const { env, params } = context;
@@ -9,7 +20,7 @@ export async function onRequestGet(context) {
   let a = null;
   if (env.DB) {
     a = await env.DB.prepare(
-      `SELECT id, subject, preview, body_html, type, published_at
+      `SELECT id, subject, preview, body_html, type, published_at, episode_url, transcript
        FROM articles WHERE slug = ?1 AND published_at IS NOT NULL`
     ).bind(slug).first();
   }
@@ -46,14 +57,33 @@ export async function onRequestGet(context) {
   const words = a.body_html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
   const readMin = Math.max(1, Math.round(words / 220));
 
+  // show notes: this page doubles as the episode's home when an episode exists
+  const videoId = ytId(a.episode_url);
+  const episode = videoId ? `
+      <div style="position:relative;aspect-ratio:16/9;margin:0 0 26px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;">
+        <iframe src="https://www.youtube-nocookie.com/embed/${videoId}" title="${esc(a.subject)} — The Windstorm episode"
+          style="position:absolute;inset:0;width:100%;height:100%;border:0;" loading="lazy" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>` :
+    (a.episode_url ? `<p style="margin:0 0 26px;"><a class="btn btn-primary" href="${esc(a.episode_url)}" target="_blank" rel="noopener">▶ Watch this episode ↗</a></p>` : "");
+  const transcriptHtml = a.transcript ? `
+      <details class="transcript" style="margin-top:34px;border:1px solid var(--line);border-radius:14px;padding:18px 22px;">
+        <summary style="cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brass-lt);">Episode transcript</summary>
+        <div style="margin-top:16px;color:var(--text-soft);font-size:15.5px;line-height:1.75;">
+          ${esc(a.transcript).split(/\n{2,}/).map((p) => `<p style="margin:0 0 14px;">${p.replace(/\n/g, "<br>")}</p>`).join("")}
+        </div>
+      </details>` : "";
+
   const body = `
   <article class="letter-wrap">
     <div class="wrap">
       <div class="letter-meta">
         <div class="lm-k">${kind}</div>
-        <div class="lm-d">${fmtDate(a.published_at)} · ${readMin} min read</div>
+        <div class="lm-d">${fmtDate(a.published_at)} · ${readMin} min read${videoId || a.episode_url ? " · 🎙 episode below" : ""}</div>
       </div>
+      ${episode}
       <div class="letter">${a.body_html}</div>
+      ${transcriptHtml}
 
       <div class="post-foot">
         <div class="share-row">
@@ -116,6 +146,16 @@ export async function onRequestGet(context) {
     publisher: { "@type": "Person", name: "Grant Whitmer", url: "https://grantwhitmer.com/" },
     mainEntityOfPage: `https://grantwhitmer.com/windstorm/${slug}`,
   };
+  if (videoId) {
+    jsonld.video = {
+      "@type": "VideoObject",
+      name: `${a.subject} — The Windstorm`,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}`,
+      thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+      uploadDate: (a.published_at || "").replace(" ", "T") + "Z",
+      description: a.preview || a.subject,
+    };
+  }
 
   return new Response(
     shell({

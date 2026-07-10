@@ -61,6 +61,8 @@ CREATE TABLE IF NOT EXISTS articles (
   social_x            TEXT,
   social_facebook     TEXT,
   podcast_outline     TEXT,                                 -- riffable show rundown per issue
+  episode_url         TEXT,                                 -- YouTube URL -> embed on the public page
+  transcript          TEXT,                                 -- episode transcript (public, collapsible)
   created_at          TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at          TEXT NOT NULL DEFAULT (datetime('now'))
 );

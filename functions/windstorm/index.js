@@ -7,7 +7,7 @@ export async function onRequestGet(context) {
   let rows = { results: [] };
   if (env.DB) {
     rows = await env.DB.prepare(
-      `SELECT subject, preview, slug, type, published_at
+      `SELECT subject, preview, slug, type, published_at, episode_url
        FROM articles WHERE published_at IS NOT NULL AND slug IS NOT NULL
        ORDER BY published_at DESC, id DESC`
     ).all();
@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
 
   const items = rows.results.map((a) => `
     <a class="post-item" href="/windstorm/${esc(a.slug)}">
-      <div class="pi-meta">${a.type === "essay" ? "Essay" : "The Windstorm"} · ${fmtDate(a.published_at)}</div>
+      <div class="pi-meta">${a.type === "essay" ? "Essay" : "The Windstorm"} · ${fmtDate(a.published_at)}${a.episode_url ? " · 🎙 watch the episode" : ""}</div>
       <h2>${esc(a.subject)}</h2>
       ${a.preview ? `<p>${esc(a.preview)}</p>` : ""}
       <span class="pi-more">Read →</span>

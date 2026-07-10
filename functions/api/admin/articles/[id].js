@@ -35,9 +35,17 @@ export async function onRequestPatch(context) {
   if (typeof body.preview === "string") { fields.push("preview = ?"); binds.push(body.preview.trim().slice(0, 200) || null); }
   if (typeof body.body_html === "string") { fields.push("body_html = ?"); binds.push(body.body_html.trim()); }
   if (typeof body.type === "string" && ["brief", "essay"].includes(body.type)) { fields.push("type = ?"); binds.push(body.type); }
-  // social copy + podcast outline (drafters+, editable any time)
+  // social copy + show notes (drafters+, editable any time — even after send)
   for (const k of ["social_linkedin", "social_x", "social_facebook", "podcast_outline"]) {
     if (typeof body[k] === "string") { fields.push(`${k} = ?`); binds.push(body[k].trim().slice(0, 12000) || null); }
+  }
+  if (typeof body.episode_url === "string") {
+    const u = body.episode_url.trim().slice(0, 500);
+    if (u && !/^https:\/\//.test(u)) return bad("The episode URL must start with https://");
+    fields.push("episode_url = ?"); binds.push(u || null);
+  }
+  if (typeof body.transcript === "string") {
+    fields.push("transcript = ?"); binds.push(body.transcript.trim().slice(0, 300000) || null);
   }
   if (fields.length) {
     if (!canDraft(data.user)) return forbidden("You don't have permission to edit issues.");
