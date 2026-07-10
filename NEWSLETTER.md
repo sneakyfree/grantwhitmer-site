@@ -47,3 +47,9 @@ Grant reviews/edits every issue in the cockpit — the voice is the product.
 - Archive at `/windstorm` (+ RSS `/windstorm/feed.xml`) — old `/brief/*` URLs
   301-redirect via `_redirects`.
 - Social copy per issue via the cockpit's "Publish & share" panel.
+- Show notes: paste the YouTube URL + transcript into the cockpit after each
+  upload → the issue page at /windstorm/:slug embeds the episode (VideoObject
+  JSON-LD) and publishes the transcript as a collapsible section (the big
+  weekly SEO surface — 5-6k unique words per episode, transcribed by Windy Word).
+- Comments: deliberately deferred until real traffic (D1 + Turnstile +
+  cockpit moderation queue when the time comes).
