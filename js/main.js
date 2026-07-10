@@ -83,6 +83,70 @@
   wireForm("inquiryForm", "Sent — Grant will reply personally.");
   wireForm("briefForm", "You're in — welcome aboard.");
 
+  // scroll progress line
+  var bar = document.getElementById("scrollBar");
+  if (bar) {
+    var updateBar = function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = "scaleX(" + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ")";
+    };
+    window.addEventListener("scroll", updateBar, { passive: true });
+    window.addEventListener("resize", updateBar, { passive: true });
+    updateBar();
+  }
+
+  // count-up on the credibility numbers (once, when the strip scrolls in)
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cred = document.querySelector(".cred-inner");
+  if (cred && !reduceMotion && "IntersectionObserver" in window) {
+    var credIO = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      credIO.disconnect();
+      cred.querySelectorAll(".n b").forEach(function (el) {
+        var m = el.textContent.match(/^(\d+)(.*)$/);
+        if (!m) return;
+        var target = parseInt(m[1], 10), suffix = m[2], start = null;
+        var step = function (ts) {
+          if (!start) start = ts;
+          var p = Math.min((ts - start) / 900, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    credIO.observe(cred);
+  }
+
+  // Calendly: load the third-party widget only when the booking section approaches
+  var calWidget = document.querySelector(".calendly-inline-widget");
+  if (calWidget) {
+    var calLoaded = false;
+    var loadCalendly = function () {
+      if (calLoaded) return;
+      calLoaded = true;
+      var s = document.createElement("script");
+      s.src = "https://assets.calendly.com/assets/external/widget.js";
+      s.async = true;
+      document.body.appendChild(s);
+      var embed = document.querySelector(".calendly-embed");
+      var tries = 0;
+      var t = setInterval(function () {
+        if (calWidget.querySelector("iframe")) { if (embed) embed.classList.add("loaded"); clearInterval(t); }
+        if (++tries > 60) clearInterval(t);
+      }, 500);
+    };
+    if ("IntersectionObserver" in window) {
+      var calIO = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { calIO.disconnect(); loadCalendly(); }
+      }, { rootMargin: "1400px 0px" });
+      calIO.observe(calWidget);
+    } else {
+      loadCalendly();
+    }
+  }
+
   // sticky Book CTA: appears on deep scroll, hides while booking/newsletter are in view
   var cta = document.getElementById("stickyCta");
   if (cta) {

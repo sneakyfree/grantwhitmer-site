@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0A0C10" />
 <title>Grant Whitmer — Conducting Intelligence | AI Boot Camps, Coaching & Consulting</title>
 <meta name="description" content="Grant Whitmer — author, former naval officer, and company founder who's become one of the first virtuosos at conducting intelligence, and loves teaching it. Available for AI boot camps, one-on-one coaching, and helping companies and organizations integrate AI." />
 <meta name="author" content="Grant Whitmer" />
@@ -61,6 +62,42 @@
       "serviceType": "Corporate AI integration and training",
       "areaServed": "Worldwide",
       "url": "https://grantwhitmer.com/#work"
+    },
+    {
+      "@type": "Book", "name": "The Pattern Upstream of Everything",
+      "author": { "@id": "https://grantwhitmer.com/#grant" },
+      "url": "https://www.amazon.com/dp/B0GX32TRTY",
+      "image": "https://grantwhitmer.com/assets/books/pattern.jpg"
+    },
+    {
+      "@type": "Book", "name": "God Is a Vibe Coder",
+      "author": { "@id": "https://grantwhitmer.com/#grant" },
+      "url": "https://www.amazon.com/dp/B0H6QFPSPT",
+      "image": "https://grantwhitmer.com/assets/books/vibecoder.jpg"
+    },
+    {
+      "@type": "Book", "name": "Voice of the Visionary Gods, Book One: The Purple Hand",
+      "author": { "@id": "https://grantwhitmer.com/#grant" },
+      "url": "https://www.amazon.com/dp/B0H4DXDQCH",
+      "image": "https://grantwhitmer.com/assets/books/purplehand.jpg"
+    },
+    {
+      "@type": "Book", "name": "Cold Boot",
+      "author": { "@id": "https://grantwhitmer.com/#grant" },
+      "url": "https://www.amazon.com/dp/B0H6R96T7T",
+      "image": "https://grantwhitmer.com/assets/books/coldboot.jpg"
+    },
+    {
+      "@type": "Book", "name": "Three Chords and a Mind",
+      "author": { "@id": "https://grantwhitmer.com/#grant" },
+      "url": "https://www.amazon.com/dp/B0H6R85B13",
+      "image": "https://grantwhitmer.com/assets/books/threechords.jpg"
+    },
+    {
+      "@type": "Book", "name": "The Last Cigarette on the Airplane",
+      "author": { "@id": "https://grantwhitmer.com/#grant" },
+      "url": "https://www.amazon.com/dp/B0H6S8XPCS",
+      "image": "https://grantwhitmer.com/assets/books/lastcigarette.jpg"
     }
   ]
 }
@@ -68,10 +105,19 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="image" href="assets/grant-portrait.webp" type="image/webp" />
+<link rel="alternate" type="application/rss+xml" title="The Conductor's Brief — Grant Whitmer" href="/brief/feed.xml" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css?v=20260707b" />
+<link rel="stylesheet" href="css/style.css?v=20260709a" />
+<noscript><style>
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .adv-bar { transform: none !important; }
+  .calendly-embed::before { content: "JavaScript is required for the calendar — email grant@windstorminstitute.org to book."; }
+</style></noscript>
 </head>
 <body>
+
+<div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
 
 <!-- ============ NAV ============ -->
 <header class="nav" id="nav">
@@ -150,7 +196,7 @@
       <p class="eyebrow">In plain terms</p>
       <h2 class="section-title">What Grant does — and who it's for</h2>
     </div>
-    <div class="wwh reveal">
+    <div class="wwh wwh-plain reveal">
       <div class="wwh-item"><div class="wwh-k">What he does</div><p><b>He's a coach, a consultant, and an AI-transformation strategist.</b> He coaches the skill — conducting intelligence — and he architects the plan: carrying a person, team, or whole company from the flint-tool age of pre-AI work to a fully agentic culture.</p></div>
       <div class="wwh-item"><div class="wwh-k">Who it's for</div><p><b>Everyone.</b> Individuals, teams, companies, and corporations — any size, any industry, any language, anywhere in the world.</p></div>
       <div class="wwh-item"><div class="wwh-k">What changes</div><p><b>Everything — in four steps.</b> Awareness of the moment, passion in place of overwhelm, mastery of the skill, and the most informed strategy your business has ever had.</p></div>
@@ -376,7 +422,7 @@
       <h2 class="section-title">What your AI agent will do for you</h2>
       <p class="lede">Once your people know how to conduct it, a personal AI agent quietly takes over the work nobody wants to do — and plenty they never thought a computer could.</p>
     </div>
-    <div class="ideas-grid">
+    <div class="ideas-grid cap-list">
       <div class="idea reveal"><h3><span class="dot">·</span> Marketing, on autopilot</h3><p>Runs your social media and generates all your marketing content — posts, emails, ads, and video scripts — and keeps it scheduled and posting.</p></div>
       <div class="idea reveal"><h3><span class="dot">·</span> Your inbox &amp; messages</h3><p>Pre-vets, sorts, and drafts replies to your email and text messages, so you approve instead of typing from scratch.</p></div>
       <div class="idea reveal"><h3><span class="dot">·</span> Research &amp; analysis</h3><p>Handles your research, competitive intel, and number-crunching, then hands you the short, useful version.</p></div>
@@ -560,19 +606,23 @@
       <p class="eyebrow">The Approach</p>
       <h2 class="section-title">Fundamentals win</h2>
     </div>
-    <div class="craft-lead reveal">
-      <p class="opener">Grant has spent his life at the fundamentals of hard disciplines — he coached wrestling at the Division&nbsp;I level, competed as an athlete to the Olympic Team Trials, and has played violin and guitar since he was a boy. Every one of them taught the same lesson: technique matters, attitude matters, work ethic matters — but <span class="hl">fundamentals are king.</span></p>
-      <p>A great coach once put it plainly: in every skill, you are either getting better or getting worse — there is a maintenance tax. An instrument is no different. A sport is no different. And conducting intelligence is no different. If you want to be elite at it, you don't cram it — you practice it, a little, every day.</p>
-      <p>So that is what Grant coaches: not tricks, but the fundamentals — and they all center on one thing. The oldest and greatest human superpower: the Socratic method, the ability to formulate and ask the question. The right question opens the floodgates — it draws out the combined creativity, knowledge, and wisdom of all of human history, distilled into the weights of the AI, and puts that whole "team" to work for you. Master it, and you can finally turn the visions you have carried in your mind your whole life into something real.</p>
+    <div class="prose-rail">
+      <div class="craft-lead reveal">
+        <p class="opener">Grant has spent his life at the fundamentals of hard disciplines — he coached wrestling at the Division&nbsp;I level, competed as an athlete to the Olympic Team Trials, and has played violin and guitar since he was a boy. Every one of them taught the same lesson: technique matters, attitude matters, work ethic matters — but <span class="hl">fundamentals are king.</span></p>
+        <p>A great coach once put it plainly: in every skill, you are either getting better or getting worse — there is a maintenance tax. An instrument is no different. A sport is no different. And conducting intelligence is no different. If you want to be elite at it, you don't cram it — you practice it, a little, every day.</p>
+        <p>So that is what Grant coaches: not tricks, but the fundamentals — and they all center on one thing. The oldest and greatest human superpower: the Socratic method, the ability to formulate and ask the question. The right question opens the floodgates — it draws out the combined creativity, knowledge, and wisdom of all of human history, distilled into the weights of the AI, and puts that whole "team" to work for you. Master it, and you can finally turn the visions you have carried in your mind your whole life into something real.</p>
+      </div>
+      <aside class="rail-quote reveal">
+        <div class="pullquote">
+          <blockquote>"In every skill, you're either getting better or getting worse. There is a <span class="accent">maintenance tax.</span> So you practice — every day."</blockquote>
+          <cite>— Grant Whitmer</cite>
+        </div>
+      </aside>
     </div>
-    <div class="wwh reveal" style="margin-top:36px;">
+    <div class="wwh wwh-plain reveal" style="margin-top:36px;">
       <div class="wwh-item"><div class="wwh-k">Fundamental I</div><p><b>Think in questions, not commands.</b> The Socratic method is the whole game — the right question beats the right instruction every time.</p></div>
       <div class="wwh-item"><div class="wwh-k">Fundamental II</div><p><b>Practice every day.</b> Mind the maintenance tax. Like a violin or a sport, the skill is always sharpening or dulling — never still.</p></div>
       <div class="wwh-item"><div class="wwh-k">Fundamental III</div><p><b>Open the floodgates.</b> Ask the question that unlocks the genius of the whole team — all of humanity's knowledge, baked into the machine.</p></div>
-    </div>
-    <div class="pullquote reveal" style="margin-top:48px;">
-      <blockquote>"In every skill, you're either getting better or getting worse. There is a <span class="accent">maintenance tax.</span> So you practice — every day."</blockquote>
-      <cite>— Grant Whitmer</cite>
     </div>
   </div>
 </section>
@@ -585,10 +635,18 @@
       <h2 class="section-title">Conducting intelligence</h2>
     </div>
 
-    <div class="craft-lead reveal">
-      <p class="opener">When you sit down to work with an AI, you are a child monarch who just inherited a kingdom — seated at a table of advisors who each know a thousand times what you know. You will never out-think them. But you can learn to conduct them.</p>
-      <p>And the gap only widens. Today we are child monarchs. Soon we'll be infant monarchs; not long after, monarchs still in the womb — a chimpanzee with a meat computer, at the head of a table of giants. When the difference in raw intelligence grows that large, there is exactly one thing left worth getting extraordinarily good at: <span class="hl">conducting the intelligence in the room.</span></p>
-      <p>Here's the miracle most people miss: right now, architecturally, humanity holds a superpower these machines simply do not have. <span class="hl">We can ask questions.</span> Power on an LLM and never ask it anything — never even task it to ask on its own — and it will sit there humming, waiting, until the power runs out and it goes dark. It cannot generate a single question unprompted. A five-year-old, thirty seconds into a movie, asks twenty. Unbidden. Ours is the only animal in the kingdom that can.</p>
+    <div class="prose-rail">
+      <div class="craft-lead reveal">
+        <p class="opener">When you sit down to work with an AI, you are a child monarch who just inherited a kingdom — seated at a table of advisors who each know a thousand times what you know. You will never out-think them. But you can learn to conduct them.</p>
+        <p>And the gap only widens. Today we are child monarchs. Soon we'll be infant monarchs; not long after, monarchs still in the womb — a chimpanzee with a meat computer, at the head of a table of giants. When the difference in raw intelligence grows that large, there is exactly one thing left worth getting extraordinarily good at: <span class="hl">conducting the intelligence in the room.</span></p>
+        <p>Here's the miracle most people miss: right now, architecturally, humanity holds a superpower these machines simply do not have. <span class="hl">We can ask questions.</span> Power on an LLM and never ask it anything — never even task it to ask on its own — and it will sit there humming, waiting, until the power runs out and it goes dark. It cannot generate a single question unprompted. A five-year-old, thirty seconds into a movie, asks twenty. Unbidden. Ours is the only animal in the kingdom that can.</p>
+      </div>
+      <aside class="rail-quote reveal">
+        <div class="pullquote">
+          <blockquote>"We conducted with our voices for hundreds of thousands of years before the keyboard — a 150-year-old relic built to stop typewriter arms from jamming. In hindsight, the whole typing era will look like a <span class="accent">short, strange detour.</span>"</blockquote>
+          <cite>— Grant Whitmer</cite>
+        </div>
+      </aside>
     </div>
 
     <div class="monarch-row reveal">
@@ -617,7 +675,7 @@
       <div class="why"><span>Ask, don't dictate</span><span>The question &gt; the answer</span><span>Let the build happen</span></div>
     </div>
 
-    <div class="ideas-grid" style="margin-top:44px;">
+    <div class="ideas-grid idea-columns" style="margin-top:44px;">
       <div class="idea reveal">
         <h3><span class="dot">·</span> Conducting Intelligence</h3>
         <p>You're not operating a computer — you're a monarch dictating to a scribe with all the time in the world and no opinions about your grammar. The composer grips; the conductor lets go. We were Conductors for hundreds of thousands of years before we were ever typists.</p>
@@ -637,10 +695,6 @@
       <p>It takes ten years to make a violin virtuoso. Nobody on earth has held this instrument for more than a few months. That's the opening: conducting intelligence is a learnable craft with a real spectrum of aptitude — and it turns out to be the key that unlocks a startling amount of dormant potential most people never knew they had. Over the coming years it will separate careers the way literacy once did — the great winnowing skill that quietly sorts the overachievers from the underachievers. For the foreseeable centuries it will likely be the single most important skill a human can develop, and the field is wide open. Pick up the instrument and learn to jam. The sooner the better.</p>
     </div>
 
-    <div class="pullquote reveal">
-      <blockquote>"We conducted with our voices for hundreds of thousands of years before the keyboard — a 150-year-old relic built to stop typewriter arms from jamming. In hindsight, the whole typing era will look like a <span class="accent">short, strange detour.</span>"</blockquote>
-      <cite>— Grant Whitmer</cite>
-    </div>
   </div>
 </section>
 
@@ -976,8 +1030,7 @@
 
 <a href="#book" class="sticky-cta" id="stickyCta" aria-hidden="true" tabindex="-1">Book Grant →</a>
 
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-<script src="js/main.js?v=20260707c"></script>
+<script src="js/main.js?v=20260709a"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "605e8288417c409d8aab2e1d184ea846"}'></script>
 </body>
 </html>

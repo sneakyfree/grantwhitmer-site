@@ -52,7 +52,7 @@ const BLOG_CSS = `
   .back-link:hover { color: var(--brass-lt); }
 `;
 
-export function shell({ title, description, path, ogImage, body }) {
+export function shell({ title, description, path, ogImage, body, jsonld }) {
   const url = `https://grantwhitmer.com${path}`;
   const img = ogImage || "https://grantwhitmer.com/assets/grant-og-wide.jpg";
   return `<!DOCTYPE html>
@@ -60,6 +60,7 @@ export function shell({ title, description, path, ogImage, body }) {
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0A0C10" />
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}" />
 <link rel="canonical" href="${url}" />
@@ -75,8 +76,10 @@ export function shell({ title, description, path, ogImage, body }) {
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/css/style.css?v=20260707c" />
+<link rel="alternate" type="application/rss+xml" title="The Conductor's Brief — Grant Whitmer" href="/brief/feed.xml" />
+<link rel="stylesheet" href="/css/style.css?v=20260709a" />
 <style>${BLOG_CSS}</style>
+${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}
 </head>
 <body>
 <header class="nav" id="nav">
@@ -101,7 +104,8 @@ export function shell({ title, description, path, ogImage, body }) {
     </div>
   </div>
 </footer>
-<script src="/js/main.js?v=20260707c"></script>
+<script src="/js/main.js?v=20260709a"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "605e8288417c409d8aab2e1d184ea846"}'></script>
 </body>
 </html>`;
 }
