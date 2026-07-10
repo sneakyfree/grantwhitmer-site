@@ -9,23 +9,25 @@ export async function onRequestGet(context) {
   let a = null;
   if (env.DB) {
     a = await env.DB.prepare(
-      `SELECT subject, preview, body_html, type, published_at
+      `SELECT id, subject, preview, body_html, type, published_at
        FROM articles WHERE slug = ?1 AND published_at IS NOT NULL`
     ).bind(slug).first();
   }
 
-  // neighbors for prev/next navigation (published order)
+  // neighbors for prev/next navigation (published order; id breaks timestamp ties)
   let prev = null, next = null;
   if (a && env.DB) {
     [prev, next] = await Promise.all([
       env.DB.prepare(
         `SELECT subject, slug FROM articles WHERE published_at IS NOT NULL AND slug IS NOT NULL
-         AND published_at < ?1 ORDER BY published_at DESC LIMIT 1`
-      ).bind(a.published_at).first(),
+         AND (published_at < ?1 OR (published_at = ?1 AND id < ?2))
+         ORDER BY published_at DESC, id DESC LIMIT 1`
+      ).bind(a.published_at, a.id).first(),
       env.DB.prepare(
         `SELECT subject, slug FROM articles WHERE published_at IS NOT NULL AND slug IS NOT NULL
-         AND published_at > ?1 ORDER BY published_at ASC LIMIT 1`
-      ).bind(a.published_at).first(),
+         AND (published_at > ?1 OR (published_at = ?1 AND id > ?2))
+         ORDER BY published_at ASC, id ASC LIMIT 1`
+      ).bind(a.published_at, a.id).first(),
     ]);
   }
 
