@@ -1,3 +1,8 @@
-# The Conductor's Brief became The Windstorm (2026-07-10) — old links live forever
-/brief /windstorm 301
-/brief/* /windstorm/:splat 301
+# The weekly archive moved to the brand's own home (2026-07-10):
+# /brief -> /windstorm -> thewindstorm.ai/archive. Old links live forever.
+/brief/feed.xml https://thewindstorm.ai/feed.xml 301
+/windstorm/feed.xml https://thewindstorm.ai/feed.xml 301
+/brief https://thewindstorm.ai/archive 301
+/windstorm https://thewindstorm.ai/archive 301
+/brief/* https://thewindstorm.ai/archive/:splat 301
+/windstorm/* https://thewindstorm.ai/archive/:splat 301

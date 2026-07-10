@@ -28,7 +28,9 @@ Never run `wrangler pages deploy` locally (drifts the live bundle from git).
 - The Windstorm signup (newsletter, formerly The Conductor's Brief) →
   `POST /api/subscribe` (Pages Function → D1 members w/ source+country →
   Resend audience + welcome email). See `NEWSLETTER.md` for the full runbook.
-- Public archive at `/windstorm` (+ RSS); old `/brief/*` URLs 301 via `_redirects`.
+- The public archive MOVED to thewindstorm.ai/archive (2026-07-10); /brief/* and
+  /windstorm/* here 301 there via `_redirects`. The cockpit at /admin still
+  drafts/approves/sends everything — same D1, new public home.
 - Pages project env vars (set in CF, both prod + preview): `RESEND_API_KEY`,
   `RESEND_AUDIENCE_ID`, `INQUIRY_TO`, `MAIL_FROM`.
 - Analytics: Cloudflare Web Analytics beacon (token in `index.html`).

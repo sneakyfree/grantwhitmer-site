@@ -334,7 +334,7 @@ const ESSAY_TEMPLATE = `<div style="font-family:Georgia,serif;font-size:17px;lin
 </div>`;
 
 const val = (id) => { const e = $(id); return e ? e.value : ""; };
-const shareUrl = (a) => a && a.slug ? `https://grantwhitmer.com/windstorm/${a.slug}` : "https://grantwhitmer.com";
+const shareUrl = (a) => a && a.slug ? `https://thewindstorm.ai/archive/${a.slug}` : "https://grantwhitmer.com";
 
 function updatePreview() { $("edFrame").srcdoc = $("edBody").value; }
 
@@ -363,7 +363,7 @@ function renderDistribution(a) {
   if (a.published_at) {
     pub = `<div class="pub-state"><span class="pub-dot"></span> Live on the site — <a href="${url}" target="_blank" style="color:var(--brass-lt)">View post ↗</a>${can('admin')?` <button class="mini" data-act="unpublish">Unpublish</button>`:''}</div>`;
   } else if (isBrief) {
-    pub = `<div class="pub-state">Publishes to /windstorm automatically when you send.${((a.status==='approved')&&can('admin'))?` <button class="mini" data-act="publish">Publish now (no email)</button>`:''}</div>`;
+    pub = `<div class="pub-state">Publishes to thewindstorm.ai/archive automatically when you send.${((a.status==='approved')&&can('admin'))?` <button class="mini" data-act="publish">Publish now (no email)</button>`:''}</div>`;
   } else {
     pub = `<div class="pub-state">Not on the site yet.${can('admin')?` <button class="mini" data-act="publish">Publish to site</button>`:''}</div>`;
   }
@@ -384,7 +384,7 @@ function renderDistribution(a) {
     </div>
     <div class="soc" style="margin-top:18px;">
       <div class="soc-lbl"><span>Episode (show notes on the public page)</span></div>
-      <input id="ed_episode_url" type="url" placeholder="YouTube URL — paste after upload; the video embeds on /windstorm/${esc(a.slug||'…')}"
+      <input id="ed_episode_url" type="url" placeholder="YouTube URL — paste after upload; the video embeds on thewindstorm.ai/archive/${esc(a.slug||'…')}"
         value="${esc(a.episode_url||"")}"
         style="width:100%;background:var(--ink-2);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 12px;font-size:13px;margin-bottom:10px;" />
       <textarea id="ed_transcript" style="min-height:120px;" placeholder="Episode transcript (Windy Word) — paste it here and it publishes under the issue as a collapsible section. Big SEO surface; blank = hidden.">${esc(a.transcript||"")}</textarea>
@@ -466,7 +466,7 @@ async function editorAction(act) {
       await saveCurrent();
       if (!confirm("Send this issue to every active member now, and publish it to the site? This can't be undone.")) { edStatus(""); return; }
       const r = await api("/api/admin/articles/" + state.current.id + "/send", { method: "POST", body: "{}" });
-      edStatus(`Sent to ${r.recipients} members — now live at /windstorm/${r.slug}.`, "ok");
+      edStatus(`Sent to ${r.recipients} members — now live at thewindstorm.ai/archive/${r.slug}.`, "ok");
       setTimeout(() => { closeEditor(); loadArticles(); boot(); }, 1600);
       return;
     }
