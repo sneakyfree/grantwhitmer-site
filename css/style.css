@@ -522,6 +522,21 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
   .rail-quote .pullquote cite { text-align: left; margin-top: 16px; }
 }
 
+/* ---------- platform ledger: the shipping log ---------- */
+.ledger { margin-top: 26px; border-top: 1px solid var(--line); }
+.ledger-row { display: grid; grid-template-columns: minmax(150px, 0.9fr) 2fr auto; gap: 10px 24px; align-items: baseline;
+  padding: 15px 2px; border-bottom: 1px solid var(--line-soft); transition: background .2s; }
+.ledger-row:hover { background: rgba(255,255,255,0.015); }
+.ledger-row .lg-name { font-family: var(--serif); font-size: 18px; color: var(--text); }
+.ledger-row .lg-desc { font-size: 14px; color: var(--muted); }
+.ledger-row .lg-link { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--brass-lt); white-space: nowrap; }
+.ledger-row .lg-link:hover { color: var(--brass); }
+.ledger-note { margin-top: 14px; font-size: 13px; color: var(--faint); font-style: italic; }
+@media (max-width: 700px) {
+  .ledger-row { grid-template-columns: 1fr auto; }
+  .ledger-row .lg-desc { grid-column: 1 / -1; margin-top: -4px; }
+}
+
 /* ---------- documentary photos: small artifacts from the road ---------- */
 .photo-doc { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .photo-doc .ph { position: relative; }

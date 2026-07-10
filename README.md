@@ -30,3 +30,10 @@ Never run `wrangler pages deploy` locally (drifts the live bundle from git).
 - Pages project env vars (set in CF, both prod + preview): `RESEND_API_KEY`,
   `RESEND_AUDIENCE_ID`, `INQUIRY_TO`, `MAIL_FROM`.
 - Analytics: Cloudflare Web Analytics beacon (token in `index.html`).
+
+## Adding a platform to the Shipping Log
+
+`index.html` → search `PLATFORM LEDGER` → copy one `ledger-row` block, edit the
+three fields (name, one-liner, domain), newest at top. Bump the `style.css?v=`
+stamp only if CSS changed. Commit → push → manual wrangler deploy (Actions is
+billing-locked).
