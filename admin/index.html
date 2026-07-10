@@ -340,7 +340,7 @@ function updatePreview() { $("edFrame").srcdoc = $("edBody").value; }
 
 async function openEditor(id, newType) {
   let a = { id: null, subject: "", preview: "", body_html: newType==='essay'?ESSAY_TEMPLATE:NEW_TEMPLATE, status: "draft",
-            type: newType || "brief", slug: null, published_at: null, social_x: "", social_linkedin: "", social_facebook: "" };
+            type: newType || "brief", slug: null, published_at: null, social_x: "", social_linkedin: "", social_facebook: "", podcast_outline: "" };
   if (id) { a = (await api("/api/admin/articles/" + id)).article; }
   state.current = a;
   const kindLabel = a.type === 'essay' ? 'Essay' : 'Issue';
@@ -375,9 +375,16 @@ function renderDistribution(a) {
       </div></div>
       <textarea id="ed_${k}" placeholder="${label} post — the auto-drafter fills this; edit freely.">${esc(a[k]||"")}</textarea>
     </div>`).join("");
+  const podcast = a.type !== 'essay' ? `
+    <div class="soc" style="margin-top:18px;">
+      <div class="soc-lbl"><span>Podcast outline — the show rundown</span><div class="soc-btns">
+        <button class="mini" data-copy="podcast_outline">Copy</button>
+      </div></div>
+      <textarea id="ed_podcast_outline" style="min-height:180px;" placeholder="Riffable talking points for this week's episode — the auto-drafter fills this; edit freely.">${esc(a.podcast_outline||"")}</textarea>
+    </div>` : "";
   $("edDistrib").innerHTML = `<h4>Publish &amp; share</h4>${pub}
     <div style="font-size:12px;color:var(--faint);margin:0 0 12px;">Post copy for your own accounts. Edit → Copy → Open the composer (X pre-fills; LinkedIn/Facebook copy the text so you can paste). Shared link: ${a.slug?esc(url):'homepage until published'}.</div>
-    ${fields}`;
+    ${fields}${podcast}`;
   $("edDistrib").querySelectorAll("button[data-act]").forEach(b => b.addEventListener("click", () => editorAction(b.dataset.act)));
   $("edDistrib").querySelectorAll("button[data-copy]").forEach(b => b.addEventListener("click", () => {
     const t = val("ed_" + b.dataset.copy);
@@ -420,7 +427,7 @@ function renderEditorActions(a) {
 }
 
 async function saveCurrent(extra) {
-  const social = { social_x: val("ed_social_x"), social_linkedin: val("ed_social_linkedin"), social_facebook: val("ed_social_facebook") };
+  const social = { social_x: val("ed_social_x"), social_linkedin: val("ed_social_linkedin"), social_facebook: val("ed_social_facebook"), podcast_outline: val("ed_podcast_outline") };
   let payload;
   if (state.current.status === "sent") {
     payload = Object.assign({}, social, extra || {});               // sent: only social is editable

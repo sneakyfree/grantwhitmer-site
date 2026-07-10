@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS articles (
   social_linkedin     TEXT,
   social_x            TEXT,
   social_facebook     TEXT,
+  podcast_outline     TEXT,                                 -- riffable show rundown per issue
   created_at          TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at          TEXT NOT NULL DEFAULT (datetime('now'))
 );
