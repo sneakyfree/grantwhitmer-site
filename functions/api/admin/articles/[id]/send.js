@@ -23,7 +23,7 @@ export async function onRequestPost(context) {
       from: env.MAIL_FROM,
       reply_to: env.INQUIRY_TO,
       subject: a.subject,
-      name: `Brief #${a.id} — ${a.subject}`.slice(0, 200),
+      name: `The Windstorm #${a.id} — ${a.subject}`.slice(0, 200),
       html: a.body_html,
     }),
   });
@@ -49,7 +49,7 @@ export async function onRequestPost(context) {
 
   const recip = await env.DB.prepare("SELECT COUNT(*) AS c FROM members WHERE status = 'active'").first();
 
-  // sending also publishes the issue to the public /brief archive
+  // sending also publishes the issue to the public /windstorm archive
   const slug = a.slug || slugify(a.subject, a.id);
   await env.DB.prepare(
     `UPDATE articles SET status = 'sent', sent_at = datetime('now'),

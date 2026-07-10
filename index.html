@@ -106,7 +106,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preload" as="image" href="assets/grant-portrait.webp" type="image/webp" />
-<link rel="alternate" type="application/rss+xml" title="The Conductor's Brief — Grant Whitmer" href="/brief/feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="The Windstorm — Grant Whitmer" href="/windstorm/feed.xml" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css?v=20260710b" />
 <noscript><style>
@@ -128,7 +128,7 @@
       <a href="#story">About</a>
       <a href="#books">Books</a>
       <a href="#pricing">Pricing</a>
-      <a href="/brief">Writing</a>
+      <a href="/windstorm">Writing</a>
       <a href="#book" class="btn btn-primary btn-sm nav-cta">Book Grant</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -1008,14 +1008,15 @@
   </div>
 </section>
 
-<!-- ============ NEWSLETTER: THE CONDUCTOR'S BRIEF ============ -->
-<section id="brief" class="section-line brief">
+<!-- ============ NEWSLETTER: THE WINDSTORM ============ -->
+<a id="brief" aria-hidden="true"></a><!-- legacy anchor: old welcome emails link /#brief -->
+<section id="windstorm" class="section-line brief">
   <div class="wrap">
     <div class="brief-grid reveal">
       <div>
         <p class="eyebrow">The Newsletter · Weekly</p>
-        <h2 class="section-title">The Conductor's Brief</h2>
-        <p class="lede" style="max-width:56ch;">A weekly dispatch on the Singularity — what actually happened this week as AI wove itself deeper into human life, what it means for your work and your company, and one thing worth doing about it. Written for leaders, and for anyone who intends to stay ahead of the wave instead of under it.</p>
+        <h2 class="section-title">The Windstorm</h2>
+        <p class="lede" style="max-width:56ch;">A weekly dispatch from the eye of the storm — what actually happened this week as AI wove itself deeper into human life, what it means for your work and your company, and one thing worth doing about it. Conducted by Grant Whitmer, for leaders and for anyone who intends to stay ahead of the wave instead of under it.</p>
         <ul class="brief-points">
           <li>The week's real signal, separated from the hype</li>
           <li>What it means for how work gets done — plain-spoken, no jargon</li>
@@ -1024,12 +1025,12 @@
         </ul>
       </div>
       <div class="brief-panel">
-        <h3>Get the Brief</h3>
+        <h3>Join The Windstorm</h3>
         <p class="sub">One email a week. Five minutes to read. Unsubscribe anytime — no hard feelings.</p>
         <form id="briefForm" action="/api/subscribe" method="POST">
           <div class="hp" aria-hidden="true"><label>Leave this field empty<input name="company_website" type="text" tabindex="-1" autocomplete="off" /></label></div>
           <div class="field"><label for="b-email">Email</label><input id="b-email" name="email" type="email" required placeholder="you@company.com" /></div>
-          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Join the Brief →</button>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Join The Windstorm →</button>
           <p class="form-status" role="status" aria-live="polite"></p>
           <p class="form-note">No spam, no selling your address. Just the signal, weekly.</p>
         </form>
@@ -1070,8 +1071,8 @@
           <li><a href="#platforms">The Shipping Log</a></li>
           <li><a href="#books">Books</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="/brief">Writing</a></li>
-          <li><a href="#brief">The Conductor's Brief</a></li>
+          <li><a href="/windstorm">Writing</a></li>
+          <li><a href="#windstorm">The Windstorm</a></li>
           <li><a href="#book">Book Grant</a></li>
         </ul>
       </div>
@@ -1097,7 +1098,7 @@
 
 <a href="#book" class="sticky-cta" id="stickyCta" aria-hidden="true" tabindex="-1">Book Grant →</a>
 
-<script src="js/main.js?v=20260709a"></script>
+<script src="js/main.js?v=20260710a"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "605e8288417c409d8aab2e1d184ea846"}'></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-// GET /brief/:slug — a single published post (light "letter" card on the dark site)
+// GET /windstorm/:slug — a single published post (light "letter" card on the dark site)
 
 import { esc, fmtDate, shell } from "../_web.js";
 
@@ -36,12 +36,12 @@ export async function onRequestGet(context) {
       <div><p class="eyebrow" style="justify-content:center;">Not found</p>
       <h1 style="font-size:clamp(30px,5vw,46px);">That piece isn't here.</h1>
       <p class="lede" style="margin:16px auto 0;">It may have moved. Here's everything else:</p>
-      <p style="margin-top:26px;"><a class="btn btn-primary" href="/brief">← All writing</a></p></div></div>`;
-    return new Response(shell({ title: "Not found — Grant Whitmer", description: "Page not found.", path: `/brief/${slug}`, body }),
+      <p style="margin-top:26px;"><a class="btn btn-primary" href="/windstorm">← All writing</a></p></div></div>`;
+    return new Response(shell({ title: "Not found — Grant Whitmer", description: "Page not found.", path: `/windstorm/${slug}`, body }),
       { status: 404, headers: { "Content-Type": "text/html; charset=utf-8" } });
   }
 
-  const kind = a.type === "essay" ? "Essay" : "The Conductor's Brief";
+  const kind = a.type === "essay" ? "Essay" : "The Windstorm";
   const shareText = a.subject;
   const words = a.body_html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
   const readMin = Math.max(1, Math.round(words / 220));
@@ -65,19 +65,19 @@ export async function onRequestGet(context) {
         </div>
         <div class="post-cta">
           <h3>Get the next one in your inbox</h3>
-          <p>The Conductor's Brief — one email a week on the Singularity. Plus Windy Word, free.</p>
-          <a class="btn btn-primary" href="/#brief">Subscribe free →</a>
+          <p>The Windstorm — one email a week from the eye of the storm. Plus Windy Word, free.</p>
+          <a class="btn btn-primary" href="/#windstorm">Subscribe free →</a>
         </div>
         ${prev || next ? `
         <nav class="post-neighbors" aria-label="More writing" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px;">
-          ${prev ? `<a href="/brief/${esc(prev.slug)}" style="border:1px solid var(--line);border-radius:12px;padding:14px 16px;">
+          ${prev ? `<a href="/windstorm/${esc(prev.slug)}" style="border:1px solid var(--line);border-radius:12px;padding:14px 16px;">
             <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:6px;">← Earlier</span>
             <span style="color:var(--text-soft);font-size:14px;">${esc(prev.subject)}</span></a>` : `<span></span>`}
-          ${next ? `<a href="/brief/${esc(next.slug)}" style="border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:right;">
+          ${next ? `<a href="/windstorm/${esc(next.slug)}" style="border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:right;">
             <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:6px;">Later →</span>
             <span style="color:var(--text-soft);font-size:14px;">${esc(next.subject)}</span></a>` : `<span></span>`}
         </nav>` : ""}
-        <div style="text-align:center;"><a class="back-link" href="/brief">← All writing</a></div>
+        <div style="text-align:center;"><a class="back-link" href="/windstorm">← All writing</a></div>
       </div>
     </div>
   </article>
@@ -109,19 +109,19 @@ export async function onRequestGet(context) {
     headline: a.subject,
     description: a.preview || undefined,
     datePublished: (a.published_at || "").replace(" ", "T") + "Z",
-    url: `https://grantwhitmer.com/brief/${slug}`,
+    url: `https://grantwhitmer.com/windstorm/${slug}`,
     image: "https://grantwhitmer.com/assets/grant-og-wide.jpg",
     wordCount: words,
     author: { "@type": "Person", name: "Grant Whitmer", url: "https://grantwhitmer.com/" },
     publisher: { "@type": "Person", name: "Grant Whitmer", url: "https://grantwhitmer.com/" },
-    mainEntityOfPage: `https://grantwhitmer.com/brief/${slug}`,
+    mainEntityOfPage: `https://grantwhitmer.com/windstorm/${slug}`,
   };
 
   return new Response(
     shell({
       title: `${a.subject} — Grant Whitmer`,
       description: a.preview || `${kind} from Grant Whitmer.`,
-      path: `/brief/${esc(slug)}`,
+      path: `/windstorm/${esc(slug)}`,
       body,
       jsonld,
     }),

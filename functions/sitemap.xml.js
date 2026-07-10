@@ -1,10 +1,10 @@
-// GET /sitemap.xml — home, /brief, and every published post (dynamic, from D1)
+// GET /sitemap.xml — home, /windstorm, and every published post (dynamic, from D1)
 
 export async function onRequestGet(context) {
   const { env } = context;
   const urls = [
     { loc: "https://grantwhitmer.com/", changefreq: "weekly", priority: "1.0" },
-    { loc: "https://grantwhitmer.com/brief", changefreq: "weekly", priority: "0.8" },
+    { loc: "https://grantwhitmer.com/windstorm", changefreq: "weekly", priority: "0.8" },
   ];
 
   if (env.DB) {
@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
     ).all();
     for (const r of rows.results) {
       const lastmod = (r.updated_at || r.published_at || "").slice(0, 10);
-      urls.push({ loc: `https://grantwhitmer.com/brief/${r.slug}`, lastmod, changefreq: "monthly", priority: "0.7" });
+      urls.push({ loc: `https://grantwhitmer.com/windstorm/${r.slug}`, lastmod, changefreq: "monthly", priority: "0.7" });
     }
   }
 

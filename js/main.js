@@ -155,10 +155,10 @@
     if ("IntersectionObserver" in window) {
       var formsIO = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) { inView[en.target.id] = en.isIntersecting; });
-        nearForms = !!(inView.book || inView.brief);
+        nearForms = !!(inView.book || inView.windstorm);
         update();
       }, { rootMargin: "0px 0px -12% 0px" });
-      ["book", "brief"].forEach(function (id) {
+      ["book", "windstorm"].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) formsIO.observe(el);
       });

@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS admins (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
--- The Conductor's Brief — newsletter issues through their review lifecycle
+-- The Windstorm — newsletter issues through their review lifecycle
 CREATE TABLE IF NOT EXISTS articles (
   id                  INTEGER PRIMARY KEY AUTOINCREMENT,
   subject             TEXT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS articles (
   sent_at             TEXT,
   recipient_count     INTEGER,
   resend_broadcast_id TEXT,
-  -- web-publishing + social. A row with published_at set is live on /brief.
+  -- web-publishing + social. A row with published_at set is live on /windstorm.
   type                TEXT NOT NULL DEFAULT 'brief',           -- brief | essay
   slug                TEXT,
   published_at        TEXT,

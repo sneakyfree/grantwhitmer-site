@@ -1,4 +1,4 @@
-// GET /brief/feed.xml — RSS 2.0 feed of all published writing
+// GET /windstorm/feed.xml — RSS 2.0 feed of all published writing
 
 const escXml = (s) =>
   (s == null ? "" : String(s)).replace(/[&<>"']/g, (c) =>
@@ -22,10 +22,10 @@ export async function onRequestGet(context) {
 
   const items = rows.results.map((a) => `    <item>
       <title>${escXml(a.subject)}</title>
-      <link>https://grantwhitmer.com/brief/${escXml(a.slug)}</link>
-      <guid isPermaLink="true">https://grantwhitmer.com/brief/${escXml(a.slug)}</guid>
+      <link>https://grantwhitmer.com/windstorm/${escXml(a.slug)}</link>
+      <guid isPermaLink="true">https://grantwhitmer.com/windstorm/${escXml(a.slug)}</guid>
       <pubDate>${rfc822(a.published_at)}</pubDate>
-      <category>${a.type === "essay" ? "Essay" : "The Conductor's Brief"}</category>
+      <category>${a.type === "essay" ? "Essay" : "The Windstorm"}</category>
       ${a.preview ? `<description>${escXml(a.preview)}</description>` : ""}
     </item>`).join("\n");
 
@@ -34,10 +34,10 @@ export async function onRequestGet(context) {
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>The Conductor's Brief — Grant Whitmer</title>
-    <link>https://grantwhitmer.com/brief</link>
-    <atom:link href="https://grantwhitmer.com/brief/feed.xml" rel="self" type="application/rss+xml" />
-    <description>Essays on conducting intelligence and the weekly Conductor's Brief — the signal each week as AI weaves itself deeper into how we work.</description>
+    <title>The Windstorm — Grant Whitmer</title>
+    <link>https://grantwhitmer.com/windstorm</link>
+    <atom:link href="https://grantwhitmer.com/windstorm/feed.xml" rel="self" type="application/rss+xml" />
+    <description>The Windstorm — Grant Whitmer's weekly dispatch from the eye of the storm: the signal each week as AI weaves itself deeper into how we work.</description>
     <language>en-us</language>
     <lastBuildDate>${lastBuild}</lastBuildDate>
 ${items}

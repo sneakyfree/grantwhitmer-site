@@ -1,4 +1,4 @@
-// /api/admin/articles — The Conductor's Brief issues
+// /api/admin/articles — The Windstorm issues
 //   GET   list issues (newest first)
 //   POST  create a draft {subject, preview, body_html}
 

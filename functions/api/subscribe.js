@@ -1,4 +1,4 @@
-// POST /api/subscribe — join The Conductor's Brief (Resend audience + welcome email)
+// POST /api/subscribe — join The Windstorm (Resend audience + welcome email)
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -14,7 +14,7 @@ function respond(request, ok, message, status) {
     });
   }
   // no-JS fallback: land on the thanks page (or bounce home on error)
-  const to = ok ? "/thanks?s=brief" : "/?error=subscribe#brief";
+  const to = ok ? "/thanks?s=brief" : "/?error=subscribe#windstorm";
   return Response.redirect(new URL(to, request.url), 303);
 }
 
@@ -38,16 +38,18 @@ export async function onRequestPost(context) {
   }
 
   const source = (form.get("source") || "newsletter").toString().slice(0, 40);
+  // Cloudflare stamps the visitor's country on every request — free geo, no form field
+  const country = (request.headers.get("cf-ipcountry") || "").slice(0, 2).toUpperCase() || null;
 
   // D1 is the source of truth — record the member first (best-effort; a DB
   // hiccup must not cost us the signup, so we log and press on to Resend).
   if (env.DB) {
     try {
       await env.DB.prepare(
-        `INSERT INTO members (email, source, status)
-         VALUES (?1, ?2, 'active')
+        `INSERT INTO members (email, source, country, status)
+         VALUES (?1, ?2, ?3, 'active')
          ON CONFLICT(email) DO UPDATE SET status = 'active', updated_at = datetime('now')`
-      ).bind(email, source).run();
+      ).bind(email, source, country).run();
     } catch (e) {
       console.log("D1 member upsert failed", email, String(e));
     }
@@ -97,11 +99,11 @@ export async function onRequestPost(context) {
         from: env.MAIL_FROM,
         to: [email],
         reply_to: env.INQUIRY_TO,
-        subject: "Welcome aboard — The Conductor's Brief",
+        subject: "Welcome to The Windstorm",
         html: [
           "<div style='font-family:Georgia,serif;font-size:17px;line-height:1.6;color:#1a1a1a;max-width:560px;margin:0 auto;padding:8px 4px;'>",
           "<p>Welcome aboard.</p>",
-          "<p>You're on the list for <b>The Conductor's Brief</b> — one email a week on the Singularity: what actually happened as AI wove itself a little deeper into human life, what it means for your work and your company, and one thing worth doing about it.</p>",
+          "<p>You're inside <b>The Windstorm</b> — one email a week from the eye of the storm: what actually happened as AI wove itself a little deeper into human life, what it means for your work and your company, and one thing worth doing about it.</p>",
           "<p>Short, plain-spoken, and worth your five minutes — that's the deal. Unsubscribe any time with one click; no hard feelings.</p>",
           "<div style='margin:26px 0;padding:20px 22px;background:#f4f1e8;border-radius:12px;'>",
           "<p style='margin:0 0 6px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#8a7a3a;'>A gift for joining</p>",
@@ -109,7 +111,7 @@ export async function onRequestPost(context) {
           "<p style='margin:0;'><a href='https://windyword.ai' style='display:inline-block;background:#1a1a1a;color:#f4f1e8;text-decoration:none;padding:11px 22px;border-radius:999px;font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;'>Download Windy Word — free →</a></p>",
           "</div>",
           "<p>While you wait for the first issue, the site has the whole story: <a href='https://grantwhitmer.com'>grantwhitmer.com</a></p>",
-          "<p>Set your sails,<br>Grant Whitmer</p>",
+          "<p>From the eye of the storm,<br>Grant Whitmer</p>",
           "</div>",
         ].join(""),
       }),

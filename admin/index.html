@@ -136,7 +136,7 @@
 <main class="wrap">
   <div class="cock-head">
     <h1>Control center</h1>
-    <p class="cock-sub">Everything happening across grantwhitmer.com and The Conductor's Brief.</p>
+    <p class="cock-sub">Everything happening across grantwhitmer.com and The Windstorm.</p>
   </div>
 
   <div id="fatal"></div>
@@ -150,11 +150,11 @@
     <div class="growth-x" id="growthX"></div>
   </section>
 
-  <!-- The Conductor's Brief -->
+  <!-- The Windstorm -->
   <section class="panel">
     <div class="panel-head">
       <div>
-        <h2>The Conductor's Brief</h2>
+        <h2>The Windstorm</h2>
         <p class="p-sub">Draft, review, approve, and send the weekly issue.</p>
       </div>
       <div style="display:flex;gap:8px;">
@@ -258,7 +258,7 @@ function renderTiles(d) {
     { k: "Members", n: d.members.total, dsc: `${d.members.active} active` },
     { k: "New this week", n: d.members.last7, dsc: `${d.members.last30} in 30 days` },
     { k: "Inquiries", n: d.inquiries.total, dsc: `${d.inquiries.unread} unread`, alert: d.inquiries.unread > 0 },
-    { k: "The Brief", n: d.articles.pending + d.articles.approved, dsc: `awaiting send · ${d.articles.sent} sent`, alert: (d.articles.pending + d.articles.approved) > 0 },
+    { k: "The Windstorm", n: d.articles.pending + d.articles.approved, dsc: `awaiting send · ${d.articles.sent} sent`, alert: (d.articles.pending + d.articles.approved) > 0 },
   ].map(t => `<div class="tile ${t.alert?'alert':''}"><div class="t-k">${t.k}</div><div class="t-n">${t.n}</div><div class="t-d">${t.dsc}</div></div>`).join("");
 }
 function renderGrowth(series) {
@@ -293,7 +293,7 @@ async function loadRegistry() {
   } catch (e) { $("registry").innerHTML = `<div class="err">Couldn't load the registry (${esc(e.message)}).</div>`; }
 }
 
-/* ---------- The Conductor's Brief ---------- */
+/* ---------- The Windstorm ---------- */
 async function loadArticles() {
   try {
     const d = await api("/api/admin/articles");
@@ -305,7 +305,7 @@ async function loadArticles() {
 }
 
 const NEW_TEMPLATE = `<div style="font-family:Georgia,serif;font-size:17px;line-height:1.65;color:#1a1a1a;max-width:600px;margin:0 auto;">
-  <h1 style="font-size:26px;margin:0 0 4px;">The Conductor's Brief</h1>
+  <h1 style="font-size:26px;margin:0 0 4px;">The Windstorm</h1>
   <p style="color:#8a7a3a;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 24px;">Week of …</p>
 
   <p><b>The signal this week.</b> Lead with the one development that most changes how work gets done.</p>
@@ -334,7 +334,7 @@ const ESSAY_TEMPLATE = `<div style="font-family:Georgia,serif;font-size:17px;lin
 </div>`;
 
 const val = (id) => { const e = $(id); return e ? e.value : ""; };
-const shareUrl = (a) => a && a.slug ? `https://grantwhitmer.com/brief/${a.slug}` : "https://grantwhitmer.com";
+const shareUrl = (a) => a && a.slug ? `https://grantwhitmer.com/windstorm/${a.slug}` : "https://grantwhitmer.com";
 
 function updatePreview() { $("edFrame").srcdoc = $("edBody").value; }
 
@@ -363,7 +363,7 @@ function renderDistribution(a) {
   if (a.published_at) {
     pub = `<div class="pub-state"><span class="pub-dot"></span> Live on the site — <a href="${url}" target="_blank" style="color:var(--brass-lt)">View post ↗</a>${can('admin')?` <button class="mini" data-act="unpublish">Unpublish</button>`:''}</div>`;
   } else if (isBrief) {
-    pub = `<div class="pub-state">Publishes to /brief automatically when you send.${((a.status==='approved')&&can('admin'))?` <button class="mini" data-act="publish">Publish now (no email)</button>`:''}</div>`;
+    pub = `<div class="pub-state">Publishes to /windstorm automatically when you send.${((a.status==='approved')&&can('admin'))?` <button class="mini" data-act="publish">Publish now (no email)</button>`:''}</div>`;
   } else {
     pub = `<div class="pub-state">Not on the site yet.${can('admin')?` <button class="mini" data-act="publish">Publish to site</button>`:''}</div>`;
   }
@@ -452,7 +452,7 @@ async function editorAction(act) {
       await saveCurrent();
       if (!confirm("Send this issue to every active member now, and publish it to the site? This can't be undone.")) { edStatus(""); return; }
       const r = await api("/api/admin/articles/" + state.current.id + "/send", { method: "POST", body: "{}" });
-      edStatus(`Sent to ${r.recipients} members — now live at /brief/${r.slug}.`, "ok");
+      edStatus(`Sent to ${r.recipients} members — now live at /windstorm/${r.slug}.`, "ok");
       setTimeout(() => { closeEditor(); loadArticles(); boot(); }, 1600);
       return;
     }

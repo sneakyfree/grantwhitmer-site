@@ -32,7 +32,7 @@ export async function onRequestGet(context) {
     return new Response(lines.join("\n"), {
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
-        "Content-Disposition": `attachment; filename="conductors-brief-members.csv"`,
+        "Content-Disposition": `attachment; filename="the-windstorm-members.csv"`,
       },
     });
   }

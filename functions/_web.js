@@ -1,4 +1,4 @@
-// Shared rendering for the public /brief writing section (not a route — underscore).
+// Shared rendering for the public /windstorm writing section (not a route — underscore).
 
 export const esc = (s) =>
   (s == null ? "" : String(s)).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -76,7 +76,7 @@ export function shell({ title, description, path, ogImage, body, jsonld }) {
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="alternate" type="application/rss+xml" title="The Conductor's Brief — Grant Whitmer" href="/brief/feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="The Windstorm — Grant Whitmer" href="/windstorm/feed.xml" />
 <link rel="stylesheet" href="/css/style.css?v=20260710b" />
 <style>${BLOG_CSS}</style>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}
@@ -89,7 +89,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script
       <a href="/#work">Services</a>
       <a href="/#story">About</a>
       <a href="/#books">Books</a>
-      <a href="/brief">Writing</a>
+      <a href="/windstorm">Writing</a>
       <a href="/#book" class="btn btn-primary btn-sm nav-cta">Book Grant</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
@@ -104,7 +104,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script
     </div>
   </div>
 </footer>
-<script src="/js/main.js?v=20260709a"></script>
+<script src="/js/main.js?v=20260710a"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "605e8288417c409d8aab2e1d184ea846"}'></script>
 </body>
 </html>`;

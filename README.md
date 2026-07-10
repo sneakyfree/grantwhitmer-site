@@ -25,8 +25,10 @@ Never run `wrangler pages deploy` locally (drifts the live bundle from git).
 - 1:1 coaching → Calendly inline embed (`grantwhitmer/30min`)
 - Speaking / corporate / boot camps → inquiry form → `POST /api/inquire`
   (Pages Function → Resend email to grant@windstorminstitute.org)
-- The Conductor's Brief signup → `POST /api/subscribe` (Pages Function → Resend
-  audience + welcome email). See `NEWSLETTER.md` for the full runbook.
+- The Windstorm signup (newsletter, formerly The Conductor's Brief) →
+  `POST /api/subscribe` (Pages Function → D1 members w/ source+country →
+  Resend audience + welcome email). See `NEWSLETTER.md` for the full runbook.
+- Public archive at `/windstorm` (+ RSS); old `/brief/*` URLs 301 via `_redirects`.
 - Pages project env vars (set in CF, both prod + preview): `RESEND_API_KEY`,
   `RESEND_AUDIENCE_ID`, `INQUIRY_TO`, `MAIL_FROM`.
 - Analytics: Cloudflare Web Analytics beacon (token in `index.html`).
