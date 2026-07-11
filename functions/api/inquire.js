@@ -49,7 +49,8 @@ export async function onRequestPost(context) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: env.MAIL_FROM,
+      // bookings speak as the business site, not the newsletter persona
+      from: env.INQUIRY_FROM || "grantwhitmer.com booking <grant@grantwhitmer.com>",
       to: [env.INQUIRY_TO],
       reply_to: email,
       subject: `Booking inquiry — ${engagement || "General"} — ${name}`,
