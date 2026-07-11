@@ -49,8 +49,8 @@ export async function onRequestPost(context) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      // bookings speak as the business site, not the newsletter persona
-      from: env.INQUIRY_FROM || "grantwhitmer.com booking <grant@grantwhitmer.com>",
+      // doctrine: each property's machine mail is FROM and TO office@ of its own domain
+      from: env.INQUIRY_FROM || "grantwhitmer.com <office@grantwhitmer.com>",
       to: [env.INQUIRY_TO],
       reply_to: email,
       subject: `Booking inquiry — ${engagement || "General"} — ${name}`,
