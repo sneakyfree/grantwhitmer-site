@@ -119,33 +119,7 @@
     credIO.observe(cred);
   }
 
-  // Calendly: load the third-party widget only when the booking section approaches
-  var calWidget = document.querySelector(".calendly-inline-widget");
-  if (calWidget) {
-    var calLoaded = false;
-    var loadCalendly = function () {
-      if (calLoaded) return;
-      calLoaded = true;
-      var s = document.createElement("script");
-      s.src = "https://assets.calendly.com/assets/external/widget.js";
-      s.async = true;
-      document.body.appendChild(s);
-      var embed = document.querySelector(".calendly-embed");
-      var tries = 0;
-      var t = setInterval(function () {
-        if (calWidget.querySelector("iframe")) { if (embed) embed.classList.add("loaded"); clearInterval(t); }
-        if (++tries > 60) clearInterval(t);
-      }, 500);
-    };
-    if ("IntersectionObserver" in window) {
-      var calIO = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) { calIO.disconnect(); loadCalendly(); }
-      }, { rootMargin: "1400px 0px" });
-      calIO.observe(calWidget);
-    } else {
-      loadCalendly();
-    }
-  }
+  // Booking: Windy Calendar is a plain iframe (no third-party script needed).
 
   // sticky Book CTA: appears on deep scroll, hides while booking/newsletter are in view
   var cta = document.getElementById("stickyCta");

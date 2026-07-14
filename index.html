@@ -112,7 +112,7 @@
 <noscript><style>
   .reveal { opacity: 1 !important; transform: none !important; }
   .adv-bar { transform: none !important; }
-  .calendly-embed::before { content: "JavaScript is required for the calendar — email grant@windstorminstitute.org to book."; }
+  /* Windy Calendar books fine without JavaScript — the iframe is plain HTML. */
 </style></noscript>
 </head>
 <body>
@@ -973,8 +973,15 @@
       <div class="book-panel reveal">
         <h3>Book a 1:1 session</h3>
         <p class="sub">Thirty minutes, one Conductor to another. A limited number of slots open each week — pick one that works and it lands straight on my calendar.</p>
-        <div class="calendly-embed">
-          <div class="calendly-inline-widget" data-url="https://calendly.com/grantwhitmer/30min?hide_gdpr_banner=1&background_color=12161f&text_color=eceae3&primary_color=c9a24b" style="min-width:280px;height:640px;"></div>
+        <div class="booking-embed">
+          <!-- Windy Calendar — Grant's own scheduler on his own product
+               (windycalendar.com, sneakyfree/windy-calendar). Replaced the
+               Calendly widget 2026-07-14: no third-party script, no account
+               for the booker, works without JavaScript, themed to the site. -->
+          <iframe src="https://windycalendar.com/book/grant?bg=12161f&fg=eceae3&accent=c9a24b"
+                  title="Book a 1:1 session with Grant"
+                  loading="lazy"
+                  style="position:relative;z-index:1;display:block;width:100%;min-width:280px;height:640px;border:0;background:#12161f;"></iframe>
         </div>
       </div>
       <div class="book-panel reveal">

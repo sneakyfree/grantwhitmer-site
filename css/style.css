@@ -297,7 +297,7 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
 .book-panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; }
 .book-panel h3 { font-size: 22px; margin-bottom: 8px; }
 .book-panel p.sub { color: var(--muted); font-size: 15px; margin: 0 0 22px; }
-.calendly-embed { min-width: 280px; height: 640px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line); }
+.booking-embed { min-width: 280px; height: 640px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line); }
 
 .field { margin-bottom: 16px; }
 .field label { display: block; font-size: 13px; color: var(--text-soft); margin-bottom: 7px; font-weight: 500; }
@@ -557,19 +557,17 @@ h2.section-title { font-size: clamp(30px, 4.4vw, 50px); margin-bottom: 20px; }
   .road-strip .photo-doc { scroll-snap-align: center; }
 }
 
-/* ---------- calendly loading skeleton ---------- */
-.calendly-embed { position: relative; }
-.calendly-embed::before {
+/* ---------- booking embed loading skeleton ---------- */
+.booking-embed { position: relative; }
+.booking-embed::before {
   content: "Loading the calendar…"; position: absolute; inset: 0; z-index: 0;
   display: grid; place-items: center;
   font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint);
   background: linear-gradient(110deg, var(--ink-2) 42%, #191f2b 50%, var(--ink-2) 58%);
   background-size: 220% 100%; animation: shimmer 1.8s linear infinite;
 }
-.calendly-embed.loaded::before { display: none; }
-.calendly-embed .calendly-inline-widget { position: relative; z-index: 1; }
 @keyframes shimmer { to { background-position: -220% 0; } }
-@media (prefers-reduced-motion: reduce) { .calendly-embed::before { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .booking-embed::before { animation: none; } }
 
 /* ---------- scroll progress line ---------- */
 .scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 70; pointer-events: none; }
