@@ -70,7 +70,7 @@ export async function onRequestPost(context) {
   if (!res.ok) {
     console.log("inquire failed", res.status, await res.text());
     // 400, not 502 — Cloudflare replaces 52x responses with its own error page
-    return respond(request, false, "Something hiccuped sending your note — email grant@windstorminstitute.org directly.", 400);
+    return respond(request, false, "Something hiccuped sending your note — email grant@grantwhitmer.com directly.", 400);
   }
 
   // log to the cockpit (best-effort — the email already went out)

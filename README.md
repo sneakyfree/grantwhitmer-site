@@ -24,7 +24,7 @@ Never run `wrangler pages deploy` locally (drifts the live bundle from git).
 
 - 1:1 coaching → Calendly inline embed (`grantwhitmer/30min`)
 - Speaking / corporate / boot camps → inquiry form → `POST /api/inquire`
-  (Pages Function → Resend email to grant@windstorminstitute.org)
+  (Pages Function → Resend email to grant@grantwhitmer.com)
 - The Windstorm signup (newsletter, formerly The Conductor's Brief) →
   `POST /api/subscribe` (Pages Function → D1 members w/ source+country →
   Resend audience + welcome email). See `NEWSLETTER.md` for the full runbook.

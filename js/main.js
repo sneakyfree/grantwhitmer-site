@@ -73,7 +73,7 @@
         })
         .catch(function () {
           if (status) {
-            status.textContent = "Couldn't send — check your connection, or email grant@windstorminstitute.org.";
+            status.textContent = "Couldn't send — check your connection, or email grant@grantwhitmer.com.";
             status.className = "form-status err";
           }
           if (button) button.disabled = false;
